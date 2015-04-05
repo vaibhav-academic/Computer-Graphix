@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0082)http://www.siggraph.org/education/materials/HyperGraph/viewing/view3d/parallel.htm -->
+<HTML><HEAD><TITLE>Parallel Viewing Projections</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR><LINK 
+href="Parallel Viewing Projections_files/main.css" type=text/css 
+rel=stylesheet></HEAD>
+<BODY bgColor=#ffffff stylesrc="../../hypergraph.htm">
+<H1 align=center>Parallel Viewing Projections</H1>
+<P>Projection rays (projectors) emanate from a Center of Projection (COP) and 
+intersect Projection Plane (PP). The COP for parallel projectors is at infinity. 
+The length of a line on the projection plane is the same as the "true 
+Length".</P>
+<P><IMG height=299 src="Parallel Viewing Projections_files/3dproj2.gif" 
+width=448></P>
+<P>There are two different types of parallel projections:<BR>If the direction of 
+projection is perpendicular to the projection plane then it is an 
+<STRONG>orthographic </STRONG>projection. If the direction of projection is not 
+perpendicular to the projection plane then it is an <STRONG>oblique</STRONG> 
+projection. </P>
+<P>Look at the parallel projection of a point (x, y, z). (Note the left handed 
+coordinate system). The projection plane is at z = 0. x, y are the orthographic 
+projection values and xp, yp are the oblique projection values (at angle a with 
+the projection plane)</P>
+<P><IMG height=229 src="Parallel Viewing Projections_files/3dproj3.gif" 
+width=368></P>
+<P>Look at orthographic projection: it is simple, just discard the z 
+coordinates. Engineering drawings frequently use front, side, top orthographic 
+views of an object.</P>
+<P>Here are three orthographic views of an object.</P>
+<P><IMG height=341 src="Parallel Viewing Projections_files/3dproj4.gif" 
+width=480></P>
+<P>Orthographic projections that show more than 1 side of an object are called 
+<STRONG>axonometric </STRONG>orthographic projections. The most common 
+axonometric projection is an <STRONG>isometric </STRONG>projection where the 
+projection plane intersects each coordinate axis in the model coordinate system 
+at an equal distance.</P>
+<P><STRONG>Isometric Projection</STRONG></P>
+<P><IMG height=269 src="Parallel Viewing Projections_files/3dproj5.gif" 
+width=416></P>
+<P>The projection plane intersects the x, y, z axes at equal distances and the 
+projection plane Normal makes an equal angle with the three axes. </P>
+<P>To form an orthographic projection xp = x, yp= y , zp = 0. To form different 
+types e.g., Isometric, just manipulate object with 3D transformations.</P>
+<P><STRONG>Oblique Projection</STRONG></P>
+<P><IMG height=229 src="Parallel Viewing Projections_files/3dproj3.gif" 
+width=368></P>
+<P>The projectors are not perpendicular to the projection plane but are parallel 
+from the object to the projection plane The projectors are defined by two angles 
+A and d where:<BR>A = angle of line (x,y,xp,yp) with projection plane, <BR>d = 
+angle of line (x, y, xp, yp) with x axis in projection plane<BR>L = Length of 
+Line (x,y,xp,yp).</P>
+<P>Then: <BR>cos d = (xp - x) / L ------&gt; xp = x + Lcos d ,<BR>sin d = (yp - 
+y) / L ------&gt; yp = y + Lsin d , <BR>tan A = z / L</P><PRE>Now define L1 = L / z	----&gt;	L= L1 z ,
+so tan A = z / L = 1 / L1 ; xp = x + z(L1cos d) ; yp = y + z(L1sin d) </PRE><PRE>    |1      0      0 0 |
+P = |0      1      0 0 |
+    |L1cosq L1sinq 1 0 |
+    |0      0      0 1 |
+</PRE>
+<P>Now if A = 90° (projection line is perpendicular to PP) then tanA = infinity 
+=&gt; L1 = 0, so have an rthographic projection.</P>
+<P>Two special cases of oblique projection <BR>A) A = 45° , tanA = 1 =&gt; L1 = 
+1 This is a <STRONG>Cavalier </STRONG>projection such that all lines 
+perpendicular to the projection planeare projected with no change in length.</P>
+<P><IMG height=116 src="Parallel Viewing Projections_files/3dproj6.gif" 
+width=504></P>
+<P>&nbsp;</P>
+<P>B) tanA = 2, A= 63.40°, L1 = 1 / 2<BR>Lines which are perpendicular to the 
+projection planeare projected at 1 / 2 length . This is a 
+<STRONG>Cabinet</STRONG> projection.</P>
+<P><IMG height=119 src="Parallel Viewing Projections_files/3dproj7.gif" 
+width=272></P>
+<P>&nbsp;</P>
+<ADDRESS><FONT face=Arial><IMG height=4 
+src="Parallel Viewing Projections_files/rain_lin.gif" width=540></FONT> 
+</ADDRESS>
+<P><IMG height=40 src="Parallel Viewing Projections_files/back.gif" width=40> <A 
+href="http://www.siggraph.org/education/materials/HyperGraph/viewing/view3d/3dprojec.htm"><FONT 
+face=Arial>3D Viewing Projections</FONT></A></P>
+<P><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/toc.htm"><FONT 
+face=Arial><IMG height=40 src="Parallel Viewing Projections_files/back.gif" 
+width=40> HyperGraph Table of Contents. </FONT></A><FONT 
+face=Arial><BR></FONT><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/hypergraph.htm"><FONT 
+face=Arial><IMG height=40 src="Parallel Viewing Projections_files/up.gif" 
+width=40> HyperGraph Home page. </FONT></A></P>
+<ADDRESS><FONT face=Arial>Last changed <!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->September 
+30, 1998<!--webbot bot="Timestamp" endspan i-checksum="39060" -->, G. Scott 
+Owen, owen@siggraph.org</FONT> </ADDRESS></BODY></HTML>

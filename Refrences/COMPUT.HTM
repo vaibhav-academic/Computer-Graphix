@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0088)http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html -->
+<HTML><HEAD><TITLE>Computer Graphics - Clipping</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+rev=made href="MAILTO:hhsieh@cc.gatech.edu">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><A name=Top>
+<H1>Computer Graphics - Clipping</H1>
+<HR>
+<!--=========================================================-->
+<H2>Table of Contents</H2>
+<MENU><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec1">1 
+  Concept</A><BR><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec2">2 
+  Line Clipping</A><BR>
+  <MENU><A 
+    href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec2_1">2.1 
+    Clipping Individual Points </A><BR><A 
+    href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec2_2">2.2 
+    Solve Simultaneous Equations </A><BR><A 
+    href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec2_3">2.3 
+    The Cohen-Sutherland Line-Clipping Algorithm </A><BR>
+    <MENU><A 
+      href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec2_3_1">2.3.1 
+      Steps for Cohen-Sutherland Algorithm</A><BR><A 
+      href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec2_3_2">2.3.2 
+      Pseudo-code of Cohen-Sutherland Algorithm</A><BR><A 
+      href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec2_3_3">2.3.3 
+      Trivial Acceptance/Reject Test</A><BR><A 
+      href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec2_3_4">2.3.4 
+      Conclusion</A><BR></MENU></MENU><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec3">3 
+  Clipping Polygons</A><BR>
+  <MENU><A 
+    href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec3_1">3.1 
+    Steps of Sutherland-Hodgman's polygon-clipping algorithm </A><BR><A 
+    href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec3_2">3.2 
+    Pseudo-code of Sutherland-Hodgman's Polygon clipping algorithm </A><BR><A 
+    href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#sec3_3">3.3 
+    Four Cases of polygon clipping against one edge </A><BR></MENU></MENU>
+<H2>Detailed Topics </H2>
+<UL>
+  <LI>A simple <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec1_example.html">example</A> 
+  for line clipping. 
+  <LI><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec2_quiz.html">Quiz</A> 
+  about line clipping. 
+  <LI><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec2_outcode.html">Outcode</A>. 
+
+  <LI>Pseudo-code of <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/code1.html">Cohen-Sutherland</A> 
+  Algorithm. 
+  <LI><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec3_step.html">STEP-BY-STEP 
+  example</A> of polygon clipping. 
+  <LI>Pseudo-Code of <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/code2.html">Sutherland 
+  and Hodgman's polygon-clipping</A> Algorithm. 
+  <LI><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec3_case.html">Four 
+  cases</A> in edge-by-edge clipping 
+  <P></P></LI></UL>
+<HR>
+<!--=========================================================--><A name=sec1>
+<H2>1. Concept</H2></A>
+<P>It is desirable to restrict the effect of graphics primitives to a subregion 
+of the canvas, to protect other portions of the canvas. All primitives are 
+clipped to the boundaries of this <B>clipping rectangle</B>; that is, primitives 
+lying outside the clip rectangle are not drawn. </P>
+<P>The default clipping rectangle is the full canvas ( the screen ), and it is 
+obvious that we cannot see any graphics primitives outside the screen.</P>
+<P>A simple <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec1_example.html">example</A> 
+of line clipping can illustrate this idea.</P>
+<P>Go back to <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#Top">Table 
+of Contents</A></P>
+<HR>
+<!--=========================================================--><A name=sec2>
+<H2>2. Line Clipping</H2></A>
+<P>This section treats clipping of lines against rectangles. Although there are 
+specialized algorithms for rectangle and polygon clipping, it is important to 
+note that other graphic primitives can be clipped by repeated application of the 
+line clipper. </P>
+<OL><A name=sec2_1>
+  <H3>
+  <LI>Clipping Individual Points</H3>
+  <P>Before we discuss clipping lines, let's look at the simpler problem of 
+  clipping individual points. </P>
+  <P>If the x coordinate boundaries of the clipping rectangle are Xmin and Xmax, 
+  and the y coordinate boundaries are Ymin and Ymax, then the following 
+  inequalities must be satisfied for a point at (X,Y) to be inside the clipping 
+  rectangle: </P><PRE>            Xmin &lt; X &lt; Xmax
+        and Ymin &lt; Y &lt; Ymax
+      </PRE>
+  <P>If any of the four inequalities does not hold, the point is outside the 
+  clipping rectangle.</P>
+  <P>See if you can answer these <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec2_quiz.html">questions</A></P><A 
+  name=sec2_2>
+  <H3>
+  <LI>Solve Simultaneous Equations </H3>
+  <P>To clip a line, we need to consider only its endpoints, not its infinitely 
+  many interior points. If both endpoints of a line lie inside the clip 
+  rectangle (eg AB, refer to <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/pic1.gif">the 
+  first example</A> ), the entire line lies inside the clip rectangle and can be 
+  <B>trivially accepted</B>. If one endpoint lies inside and one outside(eg CD), 
+  the line intersects the clip rectangle and we must compute the intersection 
+  point. If both endpoints are outside the clip rectaangle, the line may or may 
+  not intersect with the clip rectangle (EF, GH, and IJ), and we need to perform 
+  further calculations to determine whether there are any intersections.</P>
+  <P>The brute-force approach to clipping a line that cannot be trivially 
+  accepted is to intersect that line with each of the four clip-rectangle edges 
+  to see whether any intersection points lie on those edges; if so, the line 
+  cuts the clip rectangle and is partially inside. For each line and 
+  clip-rectangle edge, we therefore take the two mathematically infinite lines 
+  that contain them and intersect them. Next, we test whether this intersection 
+  point is "interior" -- that is, whether it lies within both the clip rectangle 
+  edge and the line; if so, there is an intersection with the clip rectangle. In 
+  the first example, intersection points G' and H' are interior, but I' and J' 
+  are not.</P><A name=sec2_3>
+  <H3>
+  <LI>The Cohen-Sutherland Line-Clipping Algorithm</H3>
+  <P>The more efficient Cohen-Sutherland Algorithm performs initial tests on a 
+  line to determine whether intersection calculations can be avoided. </P><A 
+  name=sec2_3_1>
+  <H4>Steps for Cohen-Sutherland algorithm</H4>
+  <OL>
+    <LI>End-points pairs are check for trivial acceptance or trivial rejected 
+    using the <A 
+    href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec2_outcode.html">outcode</A>. 
+
+    <LI>If not trivial-accepance or trivial-rejected, divided into two segments 
+    at a clip edge. 
+    <LI>Iteratively clipped by testing trivial-acceptance or trivial-rejected, 
+    and divided into two segments until completely inside or trivial-rejected. 
+    </LI></OL><A name=sec2_3_2>
+  <H4>Pseudo-code of <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/code1.html">Cohen-Sutherland</A> 
+  Algorithm. </H4><A name=sec2_3_3>
+  <H4>Trivial acceptance/reject test</H4>
+  <P>To perform trivial accept and reject tests, we extend the edges of the clip 
+  rectangle to divide the plane of the clip rectangle into nine regions. Each 
+  region is assigned a 4-bit code deteermined by where the region lies with 
+  respect to the outside halfplanes of the clip-rectangle edges. Each bit in the 
+  outcode is set to either 1 (true) or 0 (false); the 4 bits in the code 
+  correspond to the following conditions:</P>
+  <UL>
+    <LI>Bit 1 : outside halfplane of top edge, above top edge<BR>Y &gt; Ymax 
+    <LI>Bit 2 : outside halfplane of bottom edge, below bottom edge<BR>Y &lt; 
+    Ymin 
+    <LI>Bit 3 : outside halfplane of right edge, to the right of right edge<BR>X 
+    &gt; Xmax 
+    <LI>Bit 4 : outside halfplane of left edge, to the left of left edge<BR>X 
+    &lt; Xmin </LI></UL><A name=sec2_3_4>
+  <H4>Conclusion</H4>
+  <P>In summary, the C-S algorithm is efficient when outcode testing can be done 
+  cheaply (for example, by doing bitwise operations in assembly language) and 
+  trivial acceptance or rejection is applicable to the majority of line segments 
+  .(For example, large windows - everything is inside , or small windows - 
+  everything is outside).</P></LI></OL>
+<P>Go back to <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#Top">Table 
+of Contents</A></P>
+<HR>
+<!--=========================================================--><A name=sec3>
+<H2>1.3 Clipping Polygons</H2></A>
+<P>An algorithm that clips a polygon must deal with many different cases. The 
+case is particularly note worthy in that the concave polygon is clipped into two 
+separate polygons. All in all, the task of clipping seems rather complex. Each 
+edge of the polygon must be tested against each edge of the clip rectangle; new 
+edges must be added, and existing edges must be discarded, retained, or divided. 
+Multiple polygons may result from clipping a single polygon. We need an 
+organized way to deal with all these cases.</P>
+<P>The following example illustrate a simple case of polygon clipping.</P><IMG 
+src="Computer Graphics - Clipping_files/pic6.gif"> 
+<P>Sutherland and Hodgman's polygon-clipping algorithm uses a divide-and-conquer 
+strategy: It solves a series of simple and identical problems that, when 
+combined, solve the overall problem. The simple problem is to clip a polygon 
+against a single infinite clip edge. Four clip edges, each defining one boundary 
+of the clip rectangle, successively clip a polygon against a clip rectangle.</P>
+<P>Note the difference between this strategy for a polygon and the 
+Cohen-Sutherland algorithm for clipping a line: The polygon clipper clips 
+against four edges in succession, whereas the line clipper tests the outcode to 
+see which edge is crossed, and clips only when necessary.</P><A name=sec3_1>
+<H3>Steps of Sutherland-Hodgman's polygon-clipping algorithm</H3>
+<UL>
+  <LI>Polygons can be clipped against each edge of the window one at a time. 
+  Windows/edge intersections, if any, are easy to find since the X or Y 
+  coordinates are already known. 
+  <LI>Vertices which are kept after clipping against one window edge are saved 
+  for clipping against the remaining edges. 
+  <LI>Note that the number of vertices usually changes and will often increases. 
+
+  <LI>We are using the Divide and Conquer approach. </LI></UL>
+<P>Here is a <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec3_step.html">STEP-BY-STEP 
+example</A> of polygon clipping.</P><A name=sec3_2>
+<H3>Pseudo-Code of <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/code2.html">Sutherland 
+and Hodgman's polygon-clipping</A> Algorithm.</H3><A name=sec3_3>
+<H3>Four Cases of polygon clipping against one edge</H3>
+<P>The clip boundary determines a visible and invisible region. The edges from 
+vertex i to vertex i+1 can be one of <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/sec3_case.html">four 
+types</A>:</P>
+<UL>
+  <LI>Case 1 : Wholly inside visible region - save endpoint 
+  <LI>Case 2 : Exit visible region - save the intersection 
+  <LI>Case 3 : Wholly outside visible region - save nothing 
+  <LI>Case 4 : Enter visible region - save intersection and endpoint </LI></UL>
+<P>Because clipping against one edge is independent of all others, it is 
+possible to arrange the clipping stages in a pipeline. The input polygon is 
+clipped against one edge and any points that are kept are passed on as input to 
+the next stage of the pipeline. This way four polygons can be at different 
+stages of the clipping process simultaneously. This is often implemented in 
+hardware.</P>
+<HR>
+<!--=========================================================-->
+<P>Go back to <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyclip/polyclip.html#Top">Table 
+of Contents</A></P>
+<P>Back to <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/nsfmmedia.html">Computer 
+Graphics Courseware</A></P>
+<HR>
+<!--=========================================================-->
+<ADDRESS>
+<P>Contact:<BR>Haowei 
+Hsieh<BR>hhsieh@cc.gatech.edu<BR>http://www.cc.gatech.edu/gvu/people/Masters/Haowei.Hsieh.html<BR>Last 
+Change : Feb 27,1995</P></ADDRESS></BODY></HTML>

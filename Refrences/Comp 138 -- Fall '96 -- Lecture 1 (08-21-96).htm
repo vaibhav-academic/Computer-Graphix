@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0062)http://www.cs.unc.edu/~mcmillan/comp136/Lecture1/disptech.html -->
+<HTML><HEAD><TITLE>Comp 138 -- Fall '96 -- Lecture 1 (08/21/96)</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="Leonard McMillan" name=Author>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0>
+<CENTER>
+<H1>Display Technologies</H1></CENTER>
+<HR>
+
+<H2>
+<CENTER>Cathode Ray Tubes (CRTs)</CENTER></H2>
+<P>CRTs, or video monitors, are the most common output device on computers 
+today. The figure below illustrates the basic structure of a CRT. A CRT is an 
+evacuated glass bottle, with a heating element on one end and a phosphor coated 
+screen on the other. When a current flows through this heating element, called a 
+filament, the conductivity of the metal filamant is reduced due to the high 
+temperature. This cause electrons to pile up on the filament, because they can 
+not move as fast as they would like to (Notice I'm wearing my 
+"electrons-are-particles" hat). Some of these electrons actually <I>boil off</I> 
+of the filament.</P>
+<P>These free electrons are attracted to a strong positive charge from the outer 
+surface of the focusing anode cylinder (sometines called an electrostic lens). 
+However, the inside of the cylinder has a weaker negative charge. Thus when the 
+electrons head toward the anode they are forced into a beam and accelerated by 
+the repulsion of the inner cylinder walls in just the way that water is speeds 
+up when its flow though a smaller diameter pipe. By the time the electrons get 
+out they're going so fast that they fly past the cathode they were heading 
+for.</P>
+<P>The next thing that the electrons run into are two sets of weakly charged 
+deflection plates. These plates have opposite charges, one positive the other 
+negative. While their charge is not strong enough to capture the fast moving 
+electrons they do influence the path of the beam. The first set displaces the 
+beam up and down, and the second displaces the beam left and right. The 
+electrons are sent flying out of the neck of the bottle, called a <I>yolk</I>, 
+until they smash into the phosphor coating on the other end of the bottle. The 
+impact of this colission on the out valence bands of the phophor compounds 
+knocks some of the electrons to jump into the another band. This causes a few 
+photons to be generated, and results in our seeing a spot on the CRT's face.</P>
+<CENTER><IMG height=512 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/Tube.gif" 
+width=512></CENTER>
+<P>CRTs were embraced as output devices very early in the development of digital 
+computers. There close cousins, vacuum tubes, were some of the first switching 
+elements used to build computers. Today, the CRT is a the last remaining vacuum 
+tube in most systems (Even the flashing lights are solid-state LEDs).</P>
+<P>Most likely, oscilloscopes were some of the first computer graphics displays. 
+The results of computations could be used to directly drive the vertical and 
+horizontal displacement plates in order to draw lines on the CRT's face. By 
+varying the current to the heating filament the output of the electron beam 
+could also be controlled. This allowed the intensity of the lines to vary from 
+bright to completely dark.
+<P>
+<P>These early CRT displays were called <I>vector</I>, <I>calligraphic</I> or 
+affectionately <I>stroker</I> displays. The following demostration gives some 
+feel for how they worked.</P>
+<CENTER><APPLET height=300 width=300 code=ThreeD.class><PARAM NAME="height" VALUE="300"><PARAM NAME="width" VALUE="300"><PARAM NAME="code" VALUE="ThreeD.class"><PARAM NAME="codeBase" VALUE="http://www.cs.unc.edu/~mcmillan/comp136/Lecture1/"></APPLET></CENTER>
+<P>By the way, this demo is an active Java applet. You can click and drag your 
+mouse inside of the image to reorient the CRT for a better view. Notice the 
+<I>wireframe</I> nature of the displayed image. This demo is complicated by the 
+fact that it's a wireframe simulation of a wireframe display system. Notice how 
+the color of the gray lines of the CRT vary from dark to light indicating which 
+parts of the model that are closer to the viewer. This technique is called 
+<I>depth-cueing</I>, and it was used frequently on vector displays. The 
+intensity vriations seen on the teapot, however, are for a different reason. 
+Eventaully, the phosphors recover from their excited state and the displaced 
+electrons return back to their original bands. The glow of the phosphor fades. 
+Thus, the image on the CRT's face must be constantly redrawn, refreshed, or 
+updated.</P>
+<P>The two primary problems with vector displays are that they required constant 
+updates to avoid fading, thus limiting the drawn scene's complexity, and they 
+only drew wireframes.</P>
+<HR>
+
+<CENTER>
+<H2>Raster Displays</H2></CENTER><IMG height=249 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/raster.gif" width=450 
+align=right> 
+<P>During the late 50s and early 60s, broadcast televison, really began to take 
+off. It had been around for a while, but it didn't become a commodity item until 
+about this time. Televisions are basically just oscilloscopes. The main 
+difference is that instead of having complete control over the vertical and 
+horizontal deflection, a television sweeps its trace across the entire face in a 
+regular fixed pattern (the actual details are slightly more complicated, but 
+that's the jist of it). This scanning pattern proceeds from the top-left of the 
+screen to the bottom-right as shown in the diagram. The final result is that the 
+entire screen is painted once every 1/30th of a second (33 mS).</P>
+<P>Televisions were mass produced and inexpensive. For a computer to paint the 
+entire screen it needs only to synchronize its painting with the constant 
+scanning pattern of the raster. The solution to this problem was to add a 
+special memory which opreated synchronous to the raster scanning of the TV. But, 
+while televisions were cheap, memory wasn't. So there was a long period where 
+the patterns were scanned out of a cheap high-density read-only memories, called 
+<I>character generators</I>. The trick was to use a single 8 bit code to specify 
+an 8 by 12 character pattern from the ROM, and with a few addressing tricks one 
+could build a nice display (80 by 25 character) with only 2 kilobytes of memory. 
+Thus the era of the CRT-terminal was born.</P>
+<P>There were a few attempts at building systems with downloadable or 
+programmable character generators. And a few systems added an extra byte to 
+specify the foreground and background colors of the character cell. Lots of 
+tank/maze arcade games in the 70's worked this way. But by the late 70's and 
+early 80's the price of memory started a free-fall and the graphics terminal was 
+born. Next lecture we'll go into a lot more detail about how the notion of a 
+framebuffer is fundamental to modern computer graphics.</P>
+<HR>
+
+<CENTER>
+<H2>Color Video</H2></CENTER><IMG height=199 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/phosphor.gif" width=220 
+align=left> <IMG height=200 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/triad.gif" width=200 
+align=right> 
+<P>Color CRT's are more complicated than the simple monochrome models summarized 
+above. The phosphors on the face of a color CRT are laid out in a precise 
+geometric pattern. There are two primary variations, the <I>stripe</I> pattern 
+of in-line tubes shown on the left, and the <I>delta</I> pattern of delta tubes 
+as shown on the right.</P>
+<P>Within the neck of the CRT there are three electron guns, one each for red, 
+green, and blue (the actual beams are all the same color-- <I>invisible</I>). 
+There is also a special metal plate just behind the phosphor cover front face, 
+called a <I>shadow mask</I>. This mask is aligned so that it simultaneously 
+allows each electron beam to see only the phosphors of its assigned color and 
+blocks the phosphor of the remaining two colors.</P>
+<CENTER>
+<P><IMG height=320 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/inline.gif" 
+width=420></P></CENTER>
+<P>The figure shown above shows the configuration of an example in-line tube. On 
+page 44 of <B>Hearn &amp; Baker</B> you'll see a similar diagram for a delta 
+electron gun configuration</P>
+<P>A significant portion of the electron beam's energy strikes the mask rather 
+than the phosphors. This has two side effects. The shadow mask has to be 
+extremely rigid to stay aligned with the phosphor patterns on the CRT face. The 
+collision of electrons with metal mask causes the mask to emit some of it 
+absorbed energy as eletromagnetic radiation. Most of this energy is in the form 
+of heat, but some fraction is emitted as x-rays. X-rays can present a health 
+hazard. This wasn't a large problem for television because the intensity of the 
+x-ray radiation falls off quickly as you move away from the screen. However, 
+computer monitors are supposed to be viewed from a short distance. This health 
+concern along with the high voltages and power dispations of CRTs has motivated 
+the development of new display technologies.</P>
+<P>For more information on CRTs check out the following links:</P>
+<P>
+<UL><BR><A 
+  href="http://www.tek.com/Measurement/App_Notes/XYZs/oscilloscope.html">The 
+  Scoop on CRTs</A> <BR><A 
+  href="http://dbhs.wvusd.k12.ca.us/Disc-of-Electron-Images.html">History</A> 
+  <BR><A href="http://www.vifx.com/gpage/gtech/formats.html">Video standards</A> 
+</UL>
+<P></P>
+<HR>
+
+<H2>
+<CENTER>Liquid Crystal Displays (LCDs)</CENTER></H2>Currently the most popular 
+alternative to the CRT is the Liquid Crystal Display (LCD). LCDs are organic 
+molecules that, in the absence of external forces, tend to align themselves in 
+crystalline structures. But, when an external force is applied they will 
+rearrange themselves as if they were a liquid. Some liquid crystals respond to 
+heat (i.e. <I>mood rings</I>), others respond to electromagnetic forces.
+<P></P>
+<P>When LCDs are used as optical (light) modulators they are actually changing 
+polarization rather than transparency (at least this is true for the most 
+popular type of LCD called <I>Super-twisted Nematic Liquid crystals</I>). In 
+their unexcited or crystalline state the LCDs rotate the polarization of light 
+by 90 degrees. In the presence of an electric field, LCDs behave like a liquid 
+and align the small electrostatic charges of the molecules with the impinging E 
+field.
+<P>
+<P><IMG height=237 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/LCDoff.gif" 
+width=564></P>
+<P><IMG height=272 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/LCDon.gif" 
+width=540></P>
+<P>The book <B>Hearns &amp; Baker</B> is a little confusing in describing how 
+LCDs work (pp. 47-48). They call the relaxed state the "On State" and the 
+excited state the "Off State". Their statement is only true from the point of 
+view of the pixels when the LCDs are used in a <I>transmissive mode</I> (like on 
+most laptops). The opposite is true when the LCDs are used in a <I>reflective 
+mode</I> (like on watches).</P>
+<P>The LCD's transition between crystalline and liquid states is a slow process. 
+This has both good and bad side effects. LCDs, like phosphors, remain "on" for 
+some time after the E field is applied. Thus the image is <I>persistent</I> like 
+a CRT's, but this lasts just until the crystals can realign themselves, thus 
+they must be constantly refreshed, again, like a CRT.</P>
+<CENTER>
+<P><IMG height=301 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/twistne2.gif" 
+width=510></P></CENTER>
+<P>Rather than generating light like a CRTs, LCDs act as light values. 
+Therefore, they are dependent on some external light source. In the case of a 
+transmissive display, usually some sort of <I>back light</I> is used. Reflective 
+displays take advantage of the ambient light. Thus, transmissive displays are 
+difficult to see when they are overwhelmed by external light sources, whereas 
+reflective displays can't be seen in the dark. You should also note that at 
+least half of the light is lost in most LCD configurations. Can you see why?</P>
+<CENTER>
+<P><IMG height=361 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/twistne3.gif" 
+width=397></P></CENTER>
+<P>The LCD's themselves have extremely low power requirements. A very small 
+eletric field is required to excite the crystals into their liquid state. Most 
+of the energy used by an LCD display system is due to the back lighting.</P>
+<P>I mentioned earlier that LCD's slowly transition back to their crtstalline 
+state when the E field is removed. In scanned displays, with a large number of 
+pixels, the percentage of the time that LCDs are excited is very small. Thus the 
+crystals spend most of their time in intermediate states, being neither "On" or 
+"Off". This behavior is indicative of <I>passive displays</I>. You might notice 
+that these displays are not very sharp and are prone to ghosting. Another way to 
+building LCD displays uses an <I>active matrix</I>. The individual cells are 
+very similar to those described above. The main difference is that the electic 
+field is retained by a capacitor so that the crystal remains in a constant 
+state. Transistor switches are used to transfer charge into the capacitors 
+during the scanning process. The capacitors can hold the charge for 
+significantly longer than the refresh period yeilding a crisp display with no 
+shadows. Active displays, require a working capacitor and transistor for each 
+LCD or pixel element, and thus, they are more expensive to produce.</P>
+<CENTER>
+<P><IMG height=431 
+src="Comp 138 -- Fall '96 -- Lecture 1 (08-21-96)_files/twistne4.gif" 
+width=467></P></CENTER><BR><BR>
+<P>More resources:</P>
+<UL><A 
+  href="http://www.magnavox.com:81/electreference/videohandbook/tvset.html">An 
+  overview of display techologies</A> and the source of some of my figures. 
+  <BR><A href="http://144.126.176.216/Displays/c3_s1.htm">A nice discussion of 
+  the history and technical details of LCDs</A> <BR><A 
+  href="http://www.ul.ie/~flanagan/ghardw/lcd.html">More discussion of LCDs</A> 
+  and the source of some of my figures. </UL>
+<P><FONT size=+2>Next time well discuss the computer side of raster 
+displays.</FONT></P><A 
+href="http://www.cs.unc.edu/~mcmillan/comp136/Lecture1/index.html">Back to 
+Outline</A> 
+<HR>
+
+<P><I>This page was last modified 8/21/96</I></P></BODY></HTML>

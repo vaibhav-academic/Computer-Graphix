@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0082)http://www.siggraph.org/education/materials/HyperGraph/viewing/view3d/perspect.htm -->
+<HTML><HEAD><TITLE>Perspective Viewing Projection</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR><LINK 
+href="Perspective Viewing Projection_files/main.css" type=text/css 
+rel=stylesheet></HEAD>
+<BODY bgColor=#ffffff stylesrc="../../hypergraph.htm">
+<H1 align=center>Perspective Viewing Projection</H1>
+<P>The Perspective viewing projection has a Center of Projection ("eye") at a 
+finite distance from the projection plane (PP).</P>
+<P><IMG height=237 src="Perspective Viewing Projection_files/3dproj8.gif" 
+width=568></P>
+<P>&nbsp;</P>
+<P><IMG height=177 src="Perspective Viewing Projection_files/3dproj9.gif" 
+width=489></P>
+<P>So the distance of a line from the projection plane determines its size on 
+the projection plane, i.e. the farther the line is from the projection plane, 
+the smaller its image on the projection plane. In the two images above, the 
+projections of L1 = L2 but the actual length of L1 &lt;&gt; L2. Perspective 
+projection is more realistic since distant objects appear smaller.</P>
+<H3>Computing the Perspective Projection</H3>
+<P><IMG height=253 src="Perspective Viewing Projection_files/3dproj10.gif" 
+width=372></P>
+<P>Look at above diagram from y axis</P>
+<P><IMG height=204 src="Perspective Viewing Projection_files/3dproj11.gif" 
+width=367></P>
+<P>&nbsp;</P>
+<P>Now x / (z+d) = xp/d<BR>xp = x[d / (z+d)]<BR>xp = x / (z / d + 1)</P>
+<P>Do same for y (look down the x axis) and get <BR>y p = y / (z / d+1) <BR>zp = 
+0</P>
+<P>Note that we can increase the perspective effect by decreasing d (moving 
+closer). We can represent this in matrix form by using homogeneuos coordinates 
+as follows:</P><PRE>[xh yh zh w]=[x y z 1]	|1 0 0 0 |
+			|0 1 0 0 |
+			|0 0 01/d|
+			|0 0 0 1 |	</PRE>
+<P>where:<BR>xh = x<BR>yh= y<BR>zh = 0<BR>w = (z/d) + 1<BR><BR>And Points on the 
+projection plane are [xp yp zp 1] = [xh/w yh/w zh/w 1]<BR>This leads to the same 
+xp, yp as before.</P>
+<P>A problem with a perspective transformation is that it does not preserve 
+straight lines or planes, i.e., straight lines are not transformed into straight 
+lines and planes are no longer planar after the transformation.</P>
+<P>Look at example of a 3D line in object space from: <BR>P1 (x1 = 2.0, y1 = 
+5.0, z1 = 6.0) to P2 (x2 = 8.0, y2 = 7.0, z2 = 12.0)</P>
+<P>In parametric form this line is represented as: <BR>x(t) = 2 + 6 × t<BR>y(t) 
+= 5 + 2 × t<BR>z(t) = 6 + 6 × t</P>
+<P>Let us choose an arbitrary value of t (t = 0.4) and compute the x, y, z 
+values)</P>
+<P>x = 2 + 2 × 0.4 = 4.4<BR>y = 5 + 2 × 0.4 = 5.8 so Pi(t = 0.4) = (4.4, 5.8, 
+8.4)<BR>z = 6 + 6 × 0.4 = 8.4 </P>
+<P>Now perform the perspective transformation (assume d = 10.0) for P1, Pi, P2. 
+Then we get for the transformed points:</P>
+<P>P1(x = 1.25, y = 3.125, z = 6); Pi(x = 2.39, y = 3.15, z = 8.4);<BR>P2(x = 
+3.64, y = 3.18, z = 12)</P>
+<P>If this is still a straight line then all three coordinates of point Pi must 
+have the same value of the parameter t.</P>
+<P>so for x we get 2.39 = 1.25 + t × (2.39) =&gt;t = 0.48<BR>for y we get 3.15 = 
+3.12 + t × (0.57) =&gt; t = 0.48<BR>for z we get t = 0.40 since unchanged =&gt; 
+therefore the points are not collinear.</P>
+<P>To maintain linearity we can do a perspective depth transformation:</P>
+<P>Zp = Z / (D + Z)</P>
+<P>Then for point 1 Zp = 6 / (10+6) = .375<BR>point 2 Zp = 12 / (10+12) = 
+.545<BR>point i Zp = 8.4 / (10+8.4) = .457</P>
+<P>Now check with t value for point i 0.457 = 0.375 + t * (0.170) = .48. This is 
+the same t value we got for point i x and y. Therefore points 1, 2, and i are 
+still colinear after the perspective depth transformation.. Note that the 
+relative z depth values remain unchanged, i.e. if Z1 &lt; Z2 then Z1 / (Z1+d) 
+&lt; Z2 / (Z2+d) as shown below:</P>
+<P>Z1 &lt; Z2<BR>Z1 × d &lt; Z2 × d multiply both sides by d<BR>(Z1 × Z2 + Z1 × 
+d) &lt; (Z1 × Z2 + Z2 × d) add Z1 × Z2 to both sides<BR>Z1 × (Z2 + d) &lt; Z2 × 
+(Z1 + d)<BR>Z1 / (Z1 + d) &lt; Z2 / (Z2 + d)</P>
+<P>Note that for Zp = Z / (Z+d) =&gt; 0 if d &gt;&gt; Z and =&gt; 1.0 if Z 
+&gt;&gt; d<BR>therefore 0.0 &lt;= Zp &lt;= 1.0</P>
+<P>So to maintain linearity (or planarity) we must transform Z as well as X and 
+Y.</P>
+<H3>Vanishing Points</H3>
+<P>Any set of parallel lines that are not parallel to the projection plane will 
+converge to a vanishing point.If the set of lines is parallel to one of the 
+three principal axis then it is called a principal vanishing point. </P>
+<P>&nbsp;</P>
+<TABLE width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD width="50%">In this image the X and Y lines are parallel to the Z 
+      axis. Since the projection plane is normal to the Z axis there is only one 
+      principal vanishing point. Lines parallel to either X or Y axis are 
+      parallel to projection planeand have no vanishing point. So it is a 
+      one-point projection. </TD>
+    <TD width="50%"><IMG height=408 alt="1ptpersp.gif (20863 bytes)" 
+      src="Perspective Viewing Projection_files/1ptpersp.gif" width=398></TD></TR>
+  <TR>
+    <TD width="50%">In this image the lines are not parallel to the z axis. 
+      Since the projection plane is normal to the z axis there is only one 
+      principal vanishing point. Lines parallel to either x or y axis are 
+      parallel to projection planeand have no vanishing point. So it is a 
+      one-point projection. </TD>
+    <TD width="50%"><IMG height=360 alt="2ptpersp.gif (21837 bytes)" 
+      src="Perspective Viewing Projection_files/2ptpersp.gif" 
+  width=503></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<TABLE width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD width="50%">&nbsp;
+      <P><FONT face=Arial>&nbsp;</P>
+      <P>Here is the first ever painting (<I>Trinity with the Virgin, St. John 
+      and Donors</I>) done in perspective by Masaccio, in 1427. The image on the 
+      right shows that it is indeed a one-point perspective 
+    drawing.</FONT></P></TD>
+    <TD width="50%"><IMG height=407 alt="masaccio.jpg (320191 bytes)" 
+      src="Perspective Viewing Projection_files/masaccio.jpg" width=239></TD></TR>
+  <TR>
+    <TD width="50%"><FONT face=Arial>&nbsp;
+      <P>A painting (<I>The Piazza of St. Mark, Venice</I>) done by Canaletto in 
+      1735-45 in one-point perspective.</FONT></P></TD>
+    <TD width="50%"><IMG height=321 alt="canaletto.JPG (278830 bytes)" 
+      src="Perspective Viewing Projection_files/canaletto.jpg" width=500></TD></TR>
+  <TR>
+    <TD width="50%">&nbsp;
+      <P><FONT face=Arial>Painting in two point perspective by Edward Hopper 
+</P>
+      <P><EM>The Mansard Roof </EM><BR>1923 (240 Kb); Watercolor on paper, 13 
+      3/4 x 19 inches; The Brooklyn Museum, New York </FONT></P></TD>
+    <TD width="50%"><IMG height=351 alt="hopper.jpg (65929 bytes)" 
+      src="Perspective Viewing Projection_files/hopper.jpg" width=500></TD></TR>
+  <TR>
+    <TD width="50%"><FONT face=Arial>Here is a painting (<EM>City Night</EM>, 
+      1926) by Georgia O'Keefe, that is approximately in three-point 
+      perspective.</FONT></TD>
+    <TD width="50%"><IMG height=263 alt="okeefe.jpg (5613 bytes)" 
+      src="Perspective Viewing Projection_files/okeefe.jpg" 
+  width=165></TD></TR></TBODY></TABLE>
+<ADDRESS><FONT face=Arial><IMG height=4 
+src="Perspective Viewing Projection_files/rain_lin.gif" width=800></FONT> 
+<BR><IMG height=40 src="Perspective Viewing Projection_files/back.gif" width=40> 
+<FONT face=Arial><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/viewing/view3d/3dprojec.htm">3D 
+Viewing Projections</A><BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/toc.htm"><IMG 
+height=40 src="Perspective Viewing Projection_files/up.gif" width=40> HyperGraph 
+Table of Contents. </A></FONT></ADDRESS>
+<ADDRESS><FONT face=Arial>Last changed <!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->June 
+02, 1999<!--webbot bot="Timestamp" endspan i-checksum="14162" -->, G. Scott 
+Owen, owen@siggraph.org</FONT> </ADDRESS></BODY></HTML>

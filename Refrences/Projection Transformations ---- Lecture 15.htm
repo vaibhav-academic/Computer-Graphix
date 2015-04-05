@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.cs.unc.edu/~mcmillan/comp136/Lecture16/projection.html -->
+<HTML><HEAD><TITLE>Projection Transformations ---- Lecture 15</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver>
+<CENTER>
+<H1>Projection Transformations</H1></CENTER>After the viewing transformation we 
+have everything oriented as we would like them to appear in the final image. All 
+that remains is to project out the depth, or z-dimension, so that the the 
+three-dimensional view-space primitives are reduced to two-dimensional 
+screen-space primitives. 
+<P>There are many different types of projection. The simplist, is to simply 
+ignore the z-dimension. This form of projection is called <B>orthographic</B> or 
+<B>parallel</B>. It is the common form of projection used by draftspeople for 
+top, bottom, and side views. The advantage of parallel projection is that the 
+you can make accurate measurments of image features in the two dimensions that 
+remain. The disadvantage is that the images don't appear natural (i.e. they lack 
+perspective foreshorting). 
+<P>Here is an example of an parallel projection of our scene. 
+<CENTER><IMG height=200 
+src="Projection Transformations ---- Lecture 15_files/ortho.jpg" width=300 
+border=0></CENTER>
+<P>The projection matrix for orthographic projection is very simple 
+<CENTER><IMG height=175 
+src="Projection Transformations ---- Lecture 15_files/ortho.gif" width=290 
+border=0></CENTER>
+<P>There are someproblems with this simple form, however. To begin with the 
+units of the transformed points are still the same as the model. This is great 
+for drafting, but in our case we'd like for the units to be in pixels. 
+<P>We can incorporate this change of units, and perform the flip of the y-axis 
+required for raster coordinates into our projection matrix as follows. 
+<CENTER><IMG height=186 
+src="Projection Transformations ---- Lecture 15_files/orthscale.gif" width=564 
+border=0></CENTER>
+<P>For realistic three-dimensional viewing we'd like for our objects to be 
+displayed with proper perspective. Perspective causes objects nearer to the 
+viewing poisition to appear larger that the same object would when place farther 
+from the viewpoint. 
+<P>Artists (Donatello, Brunelleschi, and Da Vinci) during the renaissance 
+discovered the importance of perspective for making images appear realistic. 
+This outdates mathematicians by more than 300 years. The real reason for 
+introducing homogenous, or projective coordinates to computer graphics was to 
+accomplish perspective projections using linear operators. Not, as mentioned 
+earlier, for comnbining rotations and translations in the same framework. 
+<P>Lets start by looking at a perspective projection. 
+<CENTER><IMG height=200 
+src="Projection Transformations ---- Lecture 15_files/persp.jpg" width=300 
+border=0></CENTER>
+<P>Note how lines known to be parallel in image space appear to converge to 
+intersect when viewed in perspective. 
+<CENTER><IMG height=300 
+src="Projection Transformations ---- Lecture 15_files/lines.jpg" width=450 
+border=0></CENTER>This is an important attribute of lines in projective spaces, 
+they always intersect at a point. The projection matrix for perspective 
+projection matrix is: 
+<CENTER><IMG height=177 
+src="Projection Transformations ---- Lecture 15_files/persp.gif" width=294 
+border=0></CENTER>
+<P>Notice how similar this transform is to the original parallel projection. It 
+also has all of the disadvantages of the parallel form, its units are not screen 
+space units. The following transformation accomplishs the projection and the 
+conversion to pixels in a single transform. 
+<CENTER><IMG height=184 
+src="Projection Transformations ---- Lecture 15_files/perspscale.gif" width=636 
+border=0></CENTER>
+<P>For the purpose of clipping we can modify this transformation so that it is 
+mapped into a canonical space. Following is a canonical space mapping for 
+orthographic projections. 
+<CENTER><IMG height=186 
+src="Projection Transformations ---- Lecture 15_files/orthocan.gif" width=582 
+border=0></CENTER>Next is a canonical space mapping for perspective projections. 
+
+<CENTER><IMG height=185 
+src="Projection Transformations ---- Lecture 15_files/perspcan.gif" width=607 
+border=0></CENTER>
+<HR>
+<I>This page last modified Monday, October 21, 1996</I> </BODY></HTML>

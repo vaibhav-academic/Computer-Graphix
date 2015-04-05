@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0062)http://www.cs.unc.edu/~mcmillan/comp136/Lecture16/viewing.html -->
+<HTML><HEAD><TITLE>Viewing Transformations ---- Lecture 15</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver>
+<CENTER>
+<H1>Viewing Transformations</H1></CENTER>
+<HR>
+<IMG height=694 hspace=10 
+src="Viewing Transformations ---- Lecture 15_files/Pipeline.gif" width=152 
+align=left border=0> After the modeling transformation stage of the rendering 
+pipleine all of the obeject in the scene have been placed within a common 
+coordinate system commonly called <I>world space</I>. 
+<P>For the moment we are going to skip over the trivial rejection and 
+illumninations stages and consider the <I>view transformation</I> stage. 
+Remember that purpose of the viewing transformation is to orient the objects in 
+a coordinate system where the center of projection is located at the origin. 
+This coordinate system is called either <I>eye space</I> or <I>camera space</I>. 
+
+<P>Let's consider an example. 
+<CENTER><IMG height=200 
+src="Viewing Transformations ---- Lecture 15_files/view.jpg" width=300 
+border=0></CENTER>
+<P>In the scene above the origin of world space is shown as a blue coordinate 
+frame located under the chair. This was a convenient coordinate system for 
+orienting the floor and walls (Notice how the axes are aligned with the floor 
+tiles). The chair and teapot could also be easily placed and oriented in this 
+coordinate system. 
+<P>The next thing we'd like to do is specify the image of our model that we 
+desire. We'll find this to be much easier when the origin of our coordinate 
+system coincides with the camera as shown below. 
+<CENTER><IMG height=200 
+src="Viewing Transformations ---- Lecture 15_files/camera.jpg" width=300 
+border=0></CENTER>
+<P>The mechanics of this specification can be expressed using the rigid body 
+transformations given in the last lecture. First, we need to perform the 
+rotations needed to align the two coordinate frames. 
+<CENTER><IMG height=200 
+src="Viewing Transformations ---- Lecture 15_files/rotate.jpg" width=300 
+border=0></CENTER>
+<P>Then we need to perform a translation that will move the origin of our world 
+space to the camera's origin. 
+<CENTER><IMG height=200 
+src="Viewing Transformations ---- Lecture 15_files/translate.jpg" width=300 
+border=0></CENTER>
+<P><B>Why did we rotate first? Could we have done it the other way around?</B> 
+<P>While we have all the tools that are required to specify a viewing 
+transformation. This approach is not very intuitive. 
+<P>Instead of specifying a desired view as a rotation followed by a translation, 
+we could use the following parameterization. Suppose that we identify the point 
+where the camera is located (in world space), and call it the <I>eye point</I>. 
+Then we identify some world-space point in the scene that we wish to appear in 
+the center of our view. We'll call this point the <I>look-at</I> point. Next, we 
+identify a world space vector that we wish to be oriented upwards in our final 
+image, and this point we'll call the <I>up-vector</I>. 
+<CENTER><IMG height=200 
+src="Viewing Transformations ---- Lecture 15_files/lookat.jpg" width=300 
+border=0></CENTER>
+<P>This parameterization is very natural. We can use it to specify an arbitrary 
+camera path by change only the eye-point and leaving the look-at and up vectors 
+untouched. Or we could pan the camera from object to object by leaving the 
+eye-point and up-vector fixed and changing only the look-at point. 
+<P>Now let's consider how, given such specification, we can synthesize the 
+desired transform. 
+<P>As disscossed above we will compute the rotation part of the viewing 
+transfromation first. Fortunately, we know some things about the matrix that we 
+are looking for. 
+<P>For instance, consider a vector along the look at direction: 
+<CENTER><IMG height=143 
+src="Viewing Transformations ---- Lecture 15_files/lvector.gif" width=315 
+border=0></CENTER>
+<P>After normalizing it 
+<CENTER><IMG height=99 
+src="Viewing Transformations ---- Lecture 15_files/lnormal.gif" width=213 
+border=0></CENTER>We expect that our desired matrix will transform it to the 
+vector <I>[0, 0, -1]<SUP>T</SUP></I> (Why?). 
+<CENTER><IMG height=140 
+src="Viewing Transformations ---- Lecture 15_files/Vtimesl.gif" width=137 
+border=0></CENTER>There is also another special vector that we can compute. If 
+we find the cross product between the look-at vector with our up vector, we will 
+get a vector that points to the right. 
+<CENTER><IMG height=41 
+src="Viewing Transformations ---- Lecture 15_files/lcrossup.gif" width=130 
+border=0></CENTER>We expect that this vector when normalized will transform to 
+the vector <I>[1, 0, 0]<SUP>T</SUP></I>. 
+<CENTER><IMG height=140 
+src="Viewing Transformations ---- Lecture 15_files/Vtimesr.gif" width=274 
+border=0></CENTER>Finally from these two vectors we can sythesize a third 
+vector. 
+<CENTER><IMG height=35 
+src="Viewing Transformations ---- Lecture 15_files/rcrossl.gif" width=114 
+border=0></CENTER>And this vector, when normalized, should transform to <I>[0, 
+1, 0]<SUP>T</SUP></I>. 
+<CENTER><IMG height=141 
+src="Viewing Transformations ---- Lecture 15_files/Vtimesu.gif" width=281 
+border=0></CENTER>Now lets consider all of these results together. 
+<CENTER><IMG height=140 
+src="Viewing Transformations ---- Lecture 15_files/Vtimesall.gif" width=339 
+border=0></CENTER>Note that each of our vectors are unit length (i.e. they are 
+normalized) and they are <B>orthogonal</B> to each other (i.e. the projection of 
+any vector onto the other two vectors is zero). Therefore, the matrix is 
+<B>orthonormal</B>, like a rotation matrix. Remember that orthonormal matrices 
+have the unique property that: 
+<CENTER><IMG height=38 
+src="Viewing Transformations ---- Lecture 15_files/Vinverse.gif" width=377 
+border=0></CENTER>And we can solve for the rotation component of the viewing 
+transformation by multiplying both sides by the inverse of the 3 x 3 matrix of 
+vectors that we have computed. 
+<CENTER><IMG height=144 
+src="Viewing Transformations ---- Lecture 15_files/vrotate.gif" width=162 
+border=0></CENTER>
+<P>Next we need to compute the translation part of the viewing transformation. 
+We know that we want to apply the rotation that we just derived about the eye 
+point. However, rotations are defined to take place about vectors originating 
+form the origin. We can have our rotation occur about the correct point if we 
+first subtract the coordinate of the eye point from the given world space point 
+that we are transforming into eye-space. 
+<CENTER><IMG height=141 
+src="Viewing Transformations ---- Lecture 15_files/rotandt.gif" width=266 
+border=0></CENTER>We can simplify this equation to isolate the rotation and 
+translation parts. 
+<CENTER><IMG height=138 
+src="Viewing Transformations ---- Lecture 15_files/simplify.gif" width=337 
+border=0></CENTER>We can then convert our transformation to homogeneous 
+coordinates giving us the final version of <B>V</B>. 
+<CENTER><IMG height=178 
+src="Viewing Transformations ---- Lecture 15_files/vmatrix.gif" width=374 
+border=0></CENTER>
+<HR>
+<I>This page last modified Monday, October 21, 1996</I> </BODY></HTML>

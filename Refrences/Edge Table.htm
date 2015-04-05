@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0082)http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/et.html -->
+<HTML><HEAD><TITLE>Edge Table</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><!-- Changed by: Viren R. Shah, 20-Feb-1995 -->
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1>The Edge Table Data Structure </H1>The <STRONG>edge table</STRONG> is an 
+array of pointers to linked lists, as shown in the figure. It has one row for 
+each scanline, and each element of the array points to a linked list of edges 
+whose minimum <I>y</I> coordinate lies on that edge. For example, in the figure, 
+scanline 5 would contain edge <B>CD</B> since <B>CD</B>'s minimum <I>y</I> 
+coordinate lies on scanline 5. 
+<P><IMG src="Edge Table_files/edge.xbm"> 
+<P>The actual data stored about each edge is implementation dependent, but one 
+such implementation could be as shown: 
+<P><IMG src="Edge Table_files/oneedge.xbm"> 
+<P>
+<H2>Procedure</H2>The above data structure is filled by using a bucket-sort 
+algorithm, with each scanline representing a bucket. The edges within each 
+bucket are kept sorted according to increasing <I>x</I> coordinate. 
+<HR>
+<A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/polyscan.html"><IMG 
+src="Edge Table_files/ps_long_btn2.gif">Back to Polygon Scan Conversion</A> 
+<HR>
+
+<ADDRESS><A 
+href="http://www.cc.gatech.edu/grads/s/Viren.Shah/homepage.html">Viren 
+Shah</A><BR>viren@cc.gatech.edu<BR></ADDRESS><IMG height=1 src="" width=4> 
+</BODY></HTML>

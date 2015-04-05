@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0063)http://www.cs.unc.edu/~mcmillan/comp136/Lecture8/areaFills.html -->
+<HTML><HEAD><TITLE>Comp 136 --- Fall '96 --- Lecture 8</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0>
+<H1>
+<CENTER>Area-Filling Algorithms</CENTER></H1>
+<HR>
+
+<P>To this point we have discussed how to scan covert lines and curves. Suppose 
+that we want to do more than just draw outline figures. We could fill the 
+interior of objects with lines using our line drawing algorithm, or we could 
+draw concentric circles or ellipses with increasingly smaller radii until it 
+appeared to be solid. But this approach is wasteful. 
+<P>The next class of scan conversion algorithms that we will discuss are the 
+<I>area-filling algorithms</I>. These algorithms operate on a raster while 
+completely unaware of any other primatives previously drawn.<BR><IMG height=153 
+src="Comp 136 --- Fall '96 --- Lecture 8_files/parityFill.gif" width=162 
+align=left vspace=5> 
+<P>The first algorithm, called the <I>parity-fill algorithm</I>, is <FONT 
+color=#ff0000>very simple</FONT>. 
+<UL>
+  <LI>Processes the raster one row, or scan line, at a time. 
+  <LI>Must begin each scan line at a point outside of the figure. 
+  <LI>As it marches along each scan line it changes alternates state from 
+  between inside and outside the figure. 
+  <LI>When inside it replaces the pixel value with the current fill color 
+</LI></UL><BR><BR><IMG height=128 
+src="Comp 136 --- Fall '96 --- Lecture 8_files/selfIntersect.gif" width=128 
+align=right vspace=5 border=0> 
+<P>The parity fill algorithm has <FONT color=#ff0000>some notable 
+disadvantages</FONT>. 
+<UL>
+  <LI>It treats each figure in isolation 
+  <LI>It only works properly for <I>ideal</I> primatives 
+  <LI>Lines parallel to scanning direction must be handled as special cases 
+  <LI>Does not work properly for self-intersecting figures. </LI></UL>
+<P>Despite all its problems the parity fill algorithm is very popular is some 
+applications, such as fonting and simple polygon drawing. Some reasons are 
+<UL>
+  <LI>It is fast and well suited for hardware implementation 
+  <LI>Most packages don't allow self-intersecting figures 
+  <LI>Parallel lines don't occur very frequently, and if they are simply ignored 
+  parity-fill gives a reasonable result. 
+  <LI>Parity fill is closely related to the <I>boundary-equation method</I> of 
+  rasterizing polygons to be discussed later. </LI></UL>
+<HR>
+A second important class of area-filling algorithms start at a point know to be 
+inside a figure and start filling in the figure outward from the point. Using 
+these algorithms a graphics artist may sketch the outline of a figure and then 
+select a color or patten from a menu with which to fill it. The actual filling 
+process begins when a point inside of the figure is slected. These routines are 
+like the <I>paint-can function</I> seen in common interactive paint packages. 
+<P>The first such method that we will discuss is called the <I>boundary-fill 
+algorithm</I>. The boundary-fill method requires the coordinate of a starting 
+point, a fill color, and a background color as arguments. <PRE>    public void boundaryFill(int x, int y, int fill, int boundary)
+    {
+        if ((x &lt; 0) || (x &gt;= raster.width)) return;
+        if ((y &lt; 0) || (y &gt;= raster.height)) return;
+        int current = raster.getPixel(x, y);
+        if ((current != boundary) &amp; (current != fill)) {
+            raster.setPixel(fill, x, y);
+            boundaryFill(x+1, y, fill, boundary);
+            boundaryFill(x, y+1, fill, boundary);
+            boundaryFill(x-1, y, fill, boundary);
+            boundaryFill(x, y-1, fill, boundary);
+        }
+    }
+</PRE>Note: that this is a <B>recusive routine</B>. Each invocation of 
+<I>boundaryFill( )</I> may call itself four more times. 
+<P>The logic of this routine is very simple. If we are not either on a boundary 
+or already filled we first fill our point, and then tell our neighbors to fill 
+themselves.<BR><BR>
+<CENTER><IMG height=252 
+src="Comp 136 --- Fall '96 --- Lecture 8_files/boundFill.gif" width=232 
+border=0></CENTER><BR>But, our intuition can be misleading. Let's watch the 
+alogorithm in progress.<BR><BR>
+<CENTER><APPLET height=301 width=301 code=Fills.class><PARAM NAME="image" VALUE="boundFig.gif"><PARAM NAME="algorithm" VALUE="Slow Boundary"><PARAM NAME="height" VALUE="301"><PARAM NAME="width" VALUE="301"><PARAM NAME="code" VALUE="Fills.class"><PARAM NAME="codeBase" VALUE="http://www.cs.unc.edu/~mcmillan/comp136/Lecture8/"></APPLET> 
+</CENTER>
+<BLOCKQUOTE><FONT size=-1>Left-button click inside one of the regions to start 
+  the fill process. I might suggest a starting with a small region. Click the 
+  right button to reset the image to its original state</FONT></BLOCKQUOTE><BR>
+<P>What has happened here? Why is the drawing happening in the order shown? 
+(Hint: consider the algorithm as a tree, with the current pixel as a node and 
+neighoring pixels as ancestors). 
+<P>Here's the algorithm at full speed.<BR><BR>
+<CENTER><APPLET height=301 width=301 code=Fills.class><PARAM NAME="image" VALUE="isolateFig.gif"><PARAM NAME="algorithm" VALUE="Boundary"><PARAM NAME="height" VALUE="301"><PARAM NAME="width" VALUE="301"><PARAM NAME="code" VALUE="Fills.class"><PARAM NAME="codeBase" VALUE="http://www.cs.unc.edu/~mcmillan/comp136/Lecture8/"></APPLET> 
+</CENTER>
+<BLOCKQUOTE><FONT size=-1>Left-button click inside one of the regions to start 
+  the fill process. Click the right button to reset the image to its original 
+  state </FONT></BLOCKQUOTE><BR>By the way, sometimes the boundary fill algorithm 
+doesn't work. Can you think of such a case? 
+<HR>
+Sometimes we'd like a area fill algorithm that replaces all <I>connected</I> 
+pixels of a selected color with a fill color. The <I>flood-fill algorithm</I> 
+does exactly that. <PRE>    public void floodFill(int x, int y, int fill, int old)
+    {
+        if ((x &lt; 0) || (x &gt;= raster.width)) return;
+        if ((y &lt; 0) || (y &gt;= raster.height)) return;
+        if (raster.getPixel(x, y) == old) {
+            raster.setPixel(fill, x, y);
+            floodFill(x+1, y, fill, old);
+            floodFill(x, y+1, fill, old);
+            floodFill(x-1, y, fill, old);
+            floodFill(x, y-1, fill, old);
+        }
+    }
+</PRE>
+<P>Here's the algorithm in action<BR>
+<CENTER><APPLET height=301 width=301 code=Fills.class><PARAM NAME="image" VALUE="floodFig.gif"><PARAM NAME="algorithm" VALUE="Flood"><PARAM NAME="height" VALUE="301"><PARAM NAME="width" VALUE="301"><PARAM NAME="code" VALUE="Fills.class"><PARAM NAME="codeBase" VALUE="http://www.cs.unc.edu/~mcmillan/comp136/Lecture8/"></APPLET> 
+</CENTER>
+<BLOCKQUOTE><FONT size=-1>Left-button click inside one of the regions to start 
+  the fill process. Click the right button to reset the image to its original 
+  state </FONT></BLOCKQUOTE><BR>It's a little awkward to kick off a flood fill 
+algorithm, because it requires that the old color must be read before it is 
+invoked. The follow implementation overcomes this limitation, and it is also 
+somewhat faster, albeit longer. <PRE>    public void fillFast(int x, int y, int fill)
+    {
+        if ((x &lt; 0) || (x &gt;= raster.width)) return;
+        if ((y &lt; 0) || (y &gt;= raster.height)) return;
+        int old = raster.getPixel(x, y);
+        if (old == fill) return;
+        raster.setPixel(fill, x, y);
+        fillEast(x+1, y, fill, old);
+        fillSouth(x, y+1, fill, old);
+        fillWest(x-1, y, fill, old);
+        fillNorth(x, y-1, fill, old);
+    }
+
+    private void fillEast(int x, int y, int fill, int old)
+    {
+        if (x &gt;= raster.width) return;
+        if (raster.getPixel(x, y) == old) {
+            raster.setPixel(fill, x, y);
+            fillEast(x+1, y, fill, old);
+            fillSouth(x, y+1, fill, old);
+            fillNorth(x, y-1, fill, old);
+        }
+    }
+
+    private void fillSouth(int x, int y, int fill, int old)
+    {
+        if (y &gt;= raster.height) return;
+        if (raster.getPixel(x, y) == old) {
+            raster.setPixel(fill, x, y);
+            fillEast(x+1, y, fill, old);
+            fillSouth(x, y+1, fill, old);
+            fillWest(x-1, y, fill, old);
+        }
+    }
+
+    private void fillWest(int x, int y, int fill, int old)
+    {
+        if (x &lt; 0) return;
+        if (raster.getPixel(x, y) == old) {
+            raster.setPixel(fill, x, y);
+            fillSouth(x, y+1, fill, old);
+            fillWest(x-1, y, fill, old);
+            fillNorth(x, y-1, fill, old);
+        }
+    }
+
+    private void fillNorth(int x, int y, int fill, int old)
+    {
+        if (y &lt; 0) return;
+        if (raster.getPixel(x, y) == old) {
+            raster.setPixel(fill, x, y);
+            fillEast(x+1, y, fill, old);
+            fillWest(x-1, y, fill, old);
+            fillNorth(x, y-1, fill, old);
+        }
+    }
+</PRE>And here is the working algorithm.<BR><BR>
+<CENTER><APPLET height=301 width=301 code=Fills.class><PARAM NAME="image" VALUE="floodFig.gif"><PARAM NAME="algorithm" VALUE="Fast Flood"><PARAM NAME="height" VALUE="301"><PARAM NAME="width" VALUE="301"><PARAM NAME="code" VALUE="Fills.class"><PARAM NAME="codeBase" VALUE="http://www.cs.unc.edu/~mcmillan/comp136/Lecture8/"></APPLET> 
+</CENTER>
+<BLOCKQUOTE><FONT size=-1>Left-button click inside one of the regions to start 
+  the fill process. Click the right button to reset the image to its original 
+  state </FONT></BLOCKQUOTE><BR>
+<HR>
+A final consideration when writing a area-fill algorithm is the size and 
+connectivity of the neighborhood, around a given pixel. 
+<CENTER><IMG height=123 
+src="Comp 136 --- Fall '96 --- Lecture 8_files/neighbors.gif" width=262 
+border=0></CENTER><BR>The eight-connected neighborhood is able to get into 
+knooks and crannies that an algorithm based on a four-connected neighborhood 
+cannot. 
+<P>Here's the code for an eight-connected flood fill. <PRE>    public void floodFill8(int x, int y, int fill, int old)
+    {
+        if ((x &lt; 0) || (x &gt;= raster.width)) return;
+        if ((y &lt; 0) || (y &gt;= raster.height)) return;
+        if (raster.getPixel(x, y) == old) {
+            raster.setPixel(fill, x, y);
+            floodFill8(x+1, y, fill, old);
+            floodFill8(x, y+1, fill, old);
+            floodFill8(x-1, y, fill, old);
+            floodFill8(x, y-1, fill, old);
+            floodFill8(x+1, y+1, fill, old);
+            floodFill8(x-1, y+1, fill, old);
+            floodFill8(x-1, y-1, fill, old);
+            floodFill8(x+1, y-1, fill, old);
+        }
+    }
+</PRE>Sometimes the eight-connected algorithm gives you exactly what you want. 
+In the following example try a 8-way connected flood-fill of the 
+antelope.<BR><BR>
+<CENTER><APPLET height=301 width=301 code=Fills.class><PARAM NAME="image" VALUE="floodFig.gif"><PARAM NAME="algorithm" VALUE="Flood 8-Way"><PARAM NAME="height" VALUE="301"><PARAM NAME="width" VALUE="301"><PARAM NAME="code" VALUE="Fills.class"><PARAM NAME="codeBase" VALUE="http://www.cs.unc.edu/~mcmillan/comp136/Lecture8/"></APPLET> 
+</CENTER>
+<BLOCKQUOTE><FONT size=-1>Left-button click inside one of the regions to start 
+  the fill process. Click the right button to reset the image to its original 
+  state </FONT></BLOCKQUOTE><BR>At other times the eight-connected algorithm 
+really messes up. Try clicking on various parts of the circle below. Because of 
+this, the four-neighborhood algorithm is used far more often.<BR><BR>
+<CENTER><APPLET height=301 width=301 code=Fills.class><PARAM NAME="image" VALUE="boundFig.gif"><PARAM NAME="algorithm" VALUE="Flood 8-Way"><PARAM NAME="height" VALUE="301"><PARAM NAME="width" VALUE="301"><PARAM NAME="code" VALUE="Fills.class"><PARAM NAME="codeBase" VALUE="http://www.cs.unc.edu/~mcmillan/comp136/Lecture8/"></APPLET> 
+</CENTER>
+<BLOCKQUOTE><FONT size=-1>Left-button click inside one of the regions to start 
+  the fill process. Click the right button to reset the image to its original 
+  state </FONT></BLOCKQUOTE><BR>
+<HR>
+This page last updated Wednesday, September 25, 1996 </BODY></HTML>

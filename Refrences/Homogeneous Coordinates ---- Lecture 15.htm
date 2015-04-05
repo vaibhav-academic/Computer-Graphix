@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0062)http://www.cs.unc.edu/~mcmillan/comp136/Lecture15/hcoords.html -->
+<HTML><HEAD><TITLE>Homogeneous Coordinates ---- Lecture 15</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver>
+<CENTER>
+<H1>Introduction to Homogeneous Coordinates</H1></CENTER>
+<HR>
+
+<P>The following lame justification is often used for introducing homogeneous 
+coordinates. <I><FONT color=red>Rotations and translations don't play together 
+well.</FONT></I> While this is true, there are actually much more siginifcant 
+reasons for using homogeneous coordinates. 
+<P>Let's take a look at why rotations and translations don't mix in a very 
+satisfying way. Consider the following example where a point is first rotated, 
+the translated, and then rotated again. 
+<CENTER><IMG height=143 
+src="Homogeneous Coordinates ---- Lecture 15_files/composeA.gif" width=552 
+border=0></CENTER>
+<P>You can see from this example that rotation is bascially a multiplication 
+process (albeit a matrix multiplication), whereas translation is basically an 
+addition process. 
+<P>There is a clever way to remedy this problem. This requies the use of 
+Homogeneous coordinates.... The fact is what we really need to do is move our 
+object into a different type of space where the origin is not a special point. 
+Remember how all vectors were perpendicular to the origin, that's just one of 
+the thing that makes it special. This new space is called projective space, and 
+the reason that it has no special origin is that we exclude the origin from this 
+space. 
+<P>The origin had another special attribute, it was the starting point of all 
+vectors. Thu, we only needed 3 basis vectors to establish a coordinate 
+system,since we could assume that each vector originated form our "special 
+origin". In projective space however, we'll need to specify a fourth point in 
+order to set up a basis, since no point is any more special than any other. 
+<P>Lets consider a more formal definition of projective space. 
+<CENTER><IMG height=72 
+src="Homogeneous Coordinates ---- Lecture 15_files/pspace.gif" width=487 
+border=0></CENTER>
+<P>Thus projective space adds a new coordinate to each vector, but not a 
+dimension. Each point in projective space has many possible representitives all 
+of which vary by a non-zero scale factor. I know you're asking how is this going 
+to help us. 
+<P>We can move a point into projective space by adding a dimension like so. 
+<CENTER><IMG height=182 
+src="Homogeneous Coordinates ---- Lecture 15_files/hvector.gif" width=54 
+border=0></CENTER>
+<P>now because we have freed ourselves from the oppression of an origin we can 
+now write Rigid-body transforms as simple matrix multiplications. 
+<CENTER><IMG height=180 
+src="Homogeneous Coordinates ---- Lecture 15_files/hxform.gif" width=338 
+border=0></CENTER>
+<HR>
+<I>This page last modified on Wednesday, October 16, 1996</I> </BODY></HTML>

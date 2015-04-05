@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://www.cs.unc.edu/~mcmillan/comp136/Lecture4/Color.html -->
+<HTML><HEAD><TITLE>Comp-136 Color Models and Representation</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252"><!-- Parts of this document are Copyrighted by: Michiel van de Panne, University of Toronto>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0>
+<CENTER>
+<H1>Computer Graphics Color Models</H1></CENTER>
+<HR>
+<I>The defintions and some of the text and figures for this page are borrowed 
+from:</I> 
+<UL><B><A 
+  href="http://www.dgp.toronto.edu/people/van/courses/csc418/colour.html">CSC 
+  418: Colour Representation</A></B><BR>Copyright 1996 by Michiel van de Panne, 
+  University of Toronto </UL>
+<H2>Properties of Light</H2>We percieve electromagnetic energy having 
+wavelengths in the range 400-700 nm as <I>visible light</I>. The perceived color 
+of visible light is as much psycological as it is physical. 
+<P>The electromagetic spectrum<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/spectrum.gif"></CENTER>
+<P>
+<P>
+<H2>The Eye</H2>In order to understand color perception we first discuss the 
+structure of the eye. 
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/eye.gif"></CENTER>
+<P>
+<P>The photosensitive part of the eye is called the <I>retina</I>. The retina is 
+largely composed of two types of cells, called <I>rods</I> and <I>cones</I>, as 
+shown below. Only the cones are responsible for color perception. Cones are most 
+densely packed within a region of the eye called the <I>fovea</I>.<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/cells.gif"></CENTER>
+<P>
+<P>There are three types of cones, referred to either as S, M, and L, which are 
+roughly (very roughly) equivalent to blue, green, and red sensors, respectively. 
+Their peak sensitivities are located at approximately 430nm, 560nm, and 610nm 
+for the "average" observer. Colorblindness results from a deficiency of one cone 
+type.<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/eye_sml.gif"></CENTER>
+<P>
+<P>
+<H2>Color Perception</H2>
+<UL>
+  <LI>Different spectra can result perceptually identical sensation called 
+  <I>metamers</I> 
+  <LI>Color perception results from the simulteneous stimulation of the 3 cone 
+  types 
+  <LI>Our perception of color is also affected by surround effects and 
+  adaptation </LI></UL>
+<H2>Color Matching</H2>
+<P>
+<P>In order to define the perceptual 3D space in a "standard" way, a set of 
+experiments can (and have been) carried by having observers try and match color 
+of a given wavelength, lambda, by mixing three other pure wavelengths, such as 
+R=700nm, G=546nm, and B=436nm in the following example. Note that the phosphours 
+of color TVs and other CRTs do not emit pure red, green, or blue light of a 
+single wavelength, as is the case for this experiment.<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/cmatch.gif"></CENTER>
+<P>
+<P>The above scheme can tell us what mix of R,G,B is needed to reproduce the 
+perceptual equivalent of any wavelength. A problem exists, however, because 
+sometimes the red light needs to be added to the target before a match can be 
+achieved. This is shown on the graph by having its intensity, R, take on a 
+negative value. 
+<P>In order to achieve a representation which uses only positive mixing 
+coefficients, he CIE ("Commission Internationale d'Eclairage") defined three new 
+hypothetical light sources, x, y, and z, which yield positive matching 
+curves:<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/cie_xyz.gif"></CENTER>
+<P>
+<P>If we are given a spectrum and wish to find the corresponding X, Y, and Z 
+quantities, we can do so by integrating the product of the spectral power and 
+each of the three matching curves over all wavelengths. The weights X,Y,Z form 
+the three-dimensional CIE XYZ space, as shown below.<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/cie_xyz.gif"></CENTER>
+<P>
+<P>Often it is convenient to work in a 2D color space. This is commonly done by 
+projecting the 3D color space onto the plane X+Y+Z=1, yielding a <EM>CIE 
+chromaticity diagram</EM>. The projection is defined as:<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/cie_proj.gif"></CENTER>
+<P>
+<P>Giving the following chromaticity diagram. 
+<P>
+<CENTER><IMG src="Comp-136 Color Models and Representation_files/gamut.gif"><IMG 
+src="Comp-136 Color Models and Representation_files/cie_chrom.gif"></CENTER>
+<P>
+<P>A few definitions: 
+<DL>
+  <DT><EM>spectroradiometer</EM> 
+  <DD>A device to measure the spectral energy distribution. It can therefore 
+  also provide the CIE xyz tristimulus values. 
+  <DT><EM>illuminant C</EM> 
+  <DD>A standard for white light that approximates sunlight. It is defined by a 
+  color temperature of 6774 K. 
+  <DT><EM>complementary colors</EM> 
+  <DD>colors which can be mixed together to yield white light. For example, 
+  colors on segment CD are complementary to the colors on segment CB.<BR>
+  <CENTER><IMG 
+  src="Comp-136 Color Models and Representation_files/comp_col.gif"></CENTER>
+  <DT><EM>dominant wavelength</EM> 
+  <DD>The spectral color which can be mixed with white light in order to 
+  reproduce the desired color. color B in the above figure is the dominant 
+  wavelength for color A. 
+  <DT><EM>non-spectral colors</EM> 
+  <DD>colors not having a dominant wavelength. For example, color E in the above 
+  figure. 
+  <DT><EM>perceptually uniform color space</EM> 
+  <DD>A color space in which the distance between two colors is always 
+  proportional to the perceived distance. The CIE XYZ color space and the CIE 
+  chromaticity diagram are <EM>not</EM> perceptually uniform, as the following 
+  figure illustrates. The CIE LUV color space is designed with perceptual 
+  uniformity in mind.<BR>
+  <CENTER><IMG 
+  src="Comp-136 Color Models and Representation_files/cie_dist.gif"></CENTER></DD></DL>
+<H2>Color Gamuts</H2>The chromaticity diagram can be used to compare the 
+"gamuts" of various possible output devices (i.e., monitors and printers). Note 
+that a color printer cannot reproduce all the colors visible on a color 
+monitor.<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/gamut_dev.gif"></CENTER>
+<P>
+<H2>The RGB color Cube</H2>The additive color model used for computer graphics 
+is represented by the RGB color cube, where R, G, and B represent the colors 
+produced by red, green and blue phosphours, respectively.<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/rgb_cube.gif"><BR></CENTER>
+<P>The color cube sits within the CIE XYZ color space as follows.<BR>
+<CENTER><IMG 
+src="Comp-136 Color Models and Representation_files/cie_rgb.gif"></CENTER>
+<P>
+<H2>Color Printing</H2>Green paper is green because it reflects green and 
+absorbs other wavelengths. The following table summarizes the properties of the 
+four primary types of printing ink. 
+<P>
+<CENTER>
+<TABLE cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TD><EM>dye color</EM></TD>
+    <TD><EM>absorbs</EM></TD>
+    <TD><EM>reflects</EM></TD></TR>
+  <TR>
+    <TD>cyan</TD>
+    <TD>red</TD>
+    <TD>blue and green</TD></TR>
+  <TR>
+    <TD>magenta</TD>
+    <TD>green</TD>
+    <TD>blue and red</TD></TR>
+  <TR>
+    <TD>yellow</TD>
+    <TD>blue</TD>
+    <TD>red and green</TD></TR>
+  <TR>
+    <TD>black</TD>
+    <TD>all</TD>
+    <TD>none</TD></TR></TBODY></TABLE></CENTER>
+<P>To produce blue, one would mix cyan and magenta inks, as they both reflect 
+blue while each absorbing one of green and red. Unfortunately, inks also 
+interact in non-linear ways. This makes the process of converting a given 
+monitor color to an equivalent printer color a challenging problem. 
+<P>Black ink is used to ensure that a high quality black can always be printed, 
+and is often referred to as to K. Printers thus use a CMYK color model. 
+<H2>Color Conversion</H2>Monitors are not all manufactured with identical 
+phosphours. To convert from one color gamut to another is a relatively simple 
+procedure (with the exception of a few complicating factors!). Each phosphour 
+color can be represented by a combination of the CIE XYZ primaries, yielding the 
+following transformation from RGB to CIE XYZ:<BR>
+<CENTER><IMG src="Comp-136 Color Models and Representation_files/col_conv.gif"> 
+</CENTER>
+<P>
+<P>The transformation <IMG 
+src="Comp-136 Color Models and Representation_files/col_conv2.gif"> yields the 
+color on monitor 2 which is equivalent to a given color on monitor 1. Quality 
+conversion to-and-from printer gamuts is difficult. A first approximation is as 
+follows: <TT>C = 1 - R<BR>M = 1 - G<BR>Y = 1 - B<BR></TT>The fourth color, K, 
+can be used to replace equal amounts of CMY:<BR><TT>K = min(C,M,Y) C' = C - 
+K<BR>M' = M - K<BR>Y' = Y - K<BR></TT>
+<H2>Other Color Systems</H2>Several other color models also exist. Models such 
+as HSV (hue, saturation, value) and HLS (hue, luminosity, saturation) are 
+designed for intuitive understanding. Using these color models, the user of a 
+paint program would quickly be able to select a desired color. </BODY></HTML>

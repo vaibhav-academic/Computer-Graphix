@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0062)http://www.cs.unc.edu/~mcmillan/comp136/Lecture4/FramBuff.html -->
+<HTML><HEAD><TITLE>[Frame Buffer Architecture of Raster Displays]</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252"><!-- created:  3 Sep 96 10:30 pm -->
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<CENTER>
+<H1>Frame Buffer Architecture of Raster Displays</H1></CENTER>
+<HR>
+
+<H2>True-Color Frame Buffers</H2>
+<CENTER><IMG 
+src="[Frame Buffer Architecture of Raster Displays]_files/TrueColor.gif"></CENTER>
+<UL>
+  <LI>Each pixel requires at least 3 bytes. One byte for each primary color. 
+  <LI>Sometimes combined with a look-up table per primary 
+  <LI>Each pixel can be one of 2^24 colors 
+  <LI>Worry about your <I>Endians</I> </LI></UL>
+<P>
+<P>
+<H2>Indexed-Color Frame Buffers</H2>
+<CENTER><IMG 
+src="[Frame Buffer Architecture of Raster Displays]_files/ColMap.gif"></CENTER>
+<UL>
+  <LI>Each pixel uses one byte 
+  <LI>Each byte is an index into a color map 
+  <LI>If the color map is not updated synchronously then <I>Color-map 
+  flashing</I> may occcur. 
+  <LI>Color-map Animations 
+  <LI>Each pixel may be one of 2^24 colors, but only 256 color be displayed at a 
+  time </LI></UL>
+<P>
+<P>
+<H2>High-Color Frame Buffers</H2>
+<CENTER><IMG 
+src="[Frame Buffer Architecture of Raster Displays]_files/HiColor.gif"></CENTER>
+<UL>
+  <LI>Popular <I>PC/(SVGA)</I> standard 
+  <LI>Each pixel can be one of 2^15 colors 
+  <LI>Can exhibit worse quantization effects than Indexed-color </LI></UL>
+<H2>Specialty Frame Buffers</H2>
+<UL>
+  <LI>Non-RGB color models (YUV) or 4-2-2 
+  <LI>True color plus an <I>Overlay</I> 
+  <LI>Older 4-bit per pixel models [I,R,G,B] </LI></UL>
+<HR>
+Last Updated: Friday, January 01, 1996 </BODY></HTML>

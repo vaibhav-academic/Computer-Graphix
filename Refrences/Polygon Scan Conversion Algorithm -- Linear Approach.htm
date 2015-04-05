@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0089)http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/polyscan1.html -->
+<HTML><HEAD><TITLE>Polygon Scan Conversion Algorithm -- Linear Approach</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><!-- Changed by: Viren R. Shah, 27-Feb-1995 -->
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1>Polygon scan conversion -- Linear Approach</H1>
+<HR>
+
+<P>
+<DL>
+  <DT>What does Polygon Scan Conversion do? 
+  <DD>The polygon scan conversion algorithm is used for drawing a filled-in 
+  (solid) polygon. The algorithm can be used for both, convex polygons, as well 
+  as concave polygons (for an explanation of convex and concave polygons, click 
+  <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/polytypes.html">here</A>.) 
+  The algorithm also handles self-intersecting polygons, as well polygons with 
+  <I>holes</I> in them. </DD></DL>We will use the following example to illustrate 
+the algorithm: 
+<P><IMG 
+src="Polygon Scan Conversion Algorithm -- Linear Approach_files/example.xbm"> 
+<P>The algorithm works by scanning each row from left to right, and determining 
+which points on the scan line lie within the polygon. This process is repeated 
+for each line, and thus the whole polygon is <I>scan converted</I>. 
+<P>The algorithm can be distinguished into three functional phases: 
+<UL>
+  <LI><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/polyscan1.html#part1">Part 
+  I</A>: Find the intersection of all edges with a scan line. Repeat for all 
+  scan lines. 
+  <LI><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/polyscan1.html#part2">Part 
+  II</A>: Sort the intersections found at each edge according to increasing x 
+  coordinates. 
+  <LI><A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/polyscan1.html#part3">Part 
+  III</A>: Fill in all pixels that lie between pairs of intersection points, 
+  using the <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/oddparity.html">odd 
+  parity rule</A>. </LI></UL>
+<P>Although this algorithm is relatively simple to describe, its implementation 
+is somewhat complicated. In particular, we want an efficient method for 
+computing the edge intersections on each scan line. Also, certain vertices need 
+to be treated differently. All these details will be examined later in this 
+document. 
+<HR>
+<A name=part1>
+<H2>Edge-Scanline Intersection</H2>This part involves the computation of all the 
+intersections of edges with the scanlines. The simplest method of doing this 
+would be to 
+<OL>
+  <LI>Take an edge. 
+  <LI>Substitute the current <I>y</I> value into the equation of the line 
+  segment representing the edge. 
+  <LI>Solve for <I>x</I>. 
+  <LI>Repeat steps 1-3 for each edge that intersects the scanline. 
+  <LI>Repeat steps 1-4 for each scanline. </LI></OL>
+<HR>
+
+<FORM action=http://www.cc.gatech.edu/cscw/cgi-bin/Form method=post>The 
+problem(s) with this approach is(are): 
+<UL>
+  <LI><INPUT type=checkbox value=1 name=q1> The procedure is unnecessarily 
+  complex. 
+  <LI><INPUT type=checkbox value=2 name=q1> The procedure will not work for 
+  complex polygons. 
+  <LI><INPUT type=checkbox value=3 name=q1> The procedure will not work for 
+  concave polygons. 
+  <LI><INPUT type=checkbox value=4 name=q1> The process of finding which edge 
+  intersects a scanline is computationally intractable. </LI></UL><INPUT type=submit value="Submit quiz"> <INPUT type=reset value="Reset fields"> </FORM>
+<HR>
+Click <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/quiz1.html">here</A> 
+to get the answers to this quiz. 
+<P>As mentioned in the answer to the above quiz, we do have a more efficient 
+method of calculating intersection points. The basic method used here is the 
+<B>midpoint line scan conversion</B> described <A 
+href="http://www.cc.gatech.edu/grads/m/Aaron.E.McClennen/Bresenham/main.html">here</A>. 
+
+<P>However, this still leaves us with one concern: how do we know what edges 
+intersect the current scanline.<BR>For this, we need to keep track of all edge 
+intersections at each scanline. In order to do this, we create two data 
+structures: 
+<UL>
+  <LI>The <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/et.html">Edge 
+  Table</A> 
+  <LI>The <A 
+  href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/aet.html">Active-Edge 
+  Table</A> </LI></UL><A name=part2>
+<H2>Sorting intersection points</H2>This part consists of sorting the computed 
+intersections. While this is shown as a seperate functional component of the 
+algorithm, it is a relatively simple process. For each scanline, the 
+intersection points found with the relevant edges are sorted, and then placed in 
+the ET. 
+<P><IMG 
+src="Polygon Scan Conversion Algorithm -- Linear Approach_files/spans.gif"> 
+<P>While this is a simple procedure, it is an important part of the algorithm 
+since it allows the algorithm to interpret certain intervals between the 
+intersection points as <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/span.html">spans</A>. 
+These are the intervals that are filled in by the algorithm to draw the polygon 
+in part 3 below. 
+<P><A name=part3>
+<H2>Filling in the pixels</H2>This part of the algorithm seems simple enough. 
+Since the intersection points are already sorted, all that remains to be done is 
+fill in the intervals that lie between each intersection point in a pair, using 
+the <A 
+href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/graphics/elabor/polyscan/oddparity.html">odd-parity 
+rule</A>, as shown below: 
+<OL>
+  <LI>Start with the parity being odd, and traverse the scanline from left to 
+  right. 
+  <LI>Whenever an intersection point is encountered, toggle the parity. 
+  <LI>If parity is odd, draw the pixel. 
+  <LI>Continue until end of scanline. </LI></OL>If we use the above algorithm, 
+what will happen in the following cases: 
+<OL>
+  <LI>Case I: When two polygons have a common vertex. 
+  <P><IMG 
+  src="Polygon Scan Conversion Algorithm -- Linear Approach_files/fillcase1.gif"> 
+
+  <P>As seen above, the two polygons <B>ABCD</B> and <B>AWXYZ</B>, have the 
+  vertex <B>A</B> in common. Now, while drawing the polygons, should vertex A be 
+  counted as part of polygon <B>ABCD</B> and thus be colored red, or be counted 
+  as part of polygon <B>AWXYZ</B> and be colored blue? 
+  <P></P>
+  <LI>Case II: When two polygons have a common edge segment, but no common 
+  vertices. 
+  <P><IMG 
+  src="Polygon Scan Conversion Algorithm -- Linear Approach_files/fillcase2.gif"> 
+
+  <P>As shown in the above figure, the two polygons <B>ABCD</B> and <B>WXYZ</B> 
+  have the edge segment <B>CX</B> in common. Should CX be colored red since it 
+  is part of polygon <B>ABCD</B>, or be colored blue since it is part of polygon 
+  <B>WXYZ</B>? 
+  <P></P>
+  <LI>Case III: When two polygons have common vertices and a common edge. 
+  <P><IMG 
+  src="Polygon Scan Conversion Algorithm -- Linear Approach_files/fillcase3.gif"> 
+
+  <P>In this example, the two polygons <B>ABCD</B> and <B>CDWZ</B> have two 
+  vertices (C and D) in common, as well as the edge between them (edge CD). 
+  Again, the question arises, what color should the common vertices and edges 
+  be? 
+  <P></P></LI></OL>
+<P>So what is the correct way of displaying polygons that fall into any of the 
+above categories? One obvious way of doing this is to color the common edges 
+according to the order in which the pixels are scanconverted i.e. whichever 
+polygon is the rightmost (since we scan-convert from left to right) will be the 
+predominant polygon. Thus in the above cases, all the common edges and vertices 
+would be colored blue. 
+<P>This method is undesirable for two reasons 
+<UL>
+  <LI>First, it involves scan-converting a shared pixel multiple time (one for 
+  each primitive that it belongs to.) 
+  <LI>Second, coloring a pixel multiple times may have unforseen results. The 
+  resulting color may not be the color of the last primitive scan-converted, but 
+  may be an amalgam of all the colors. </LI></UL>In order to avoid this problem, 
+we adopt the following rule: 
+<P><IMG 
+src="Polygon Scan Conversion Algorithm -- Linear Approach_files/eyes1.line.gif"> 
+
+<P>
+<BLOCKQUOTE><I>A boundary pixel -- that is, a pixel lying on an edge -- is not 
+  considered<BR>part of the primitive if the halfplane defined by that edge and 
+  containing<BR>the primitive lies below or to the left of the edge.</I> 
+</BLOCKQUOTE>
+<P><IMG 
+src="Polygon Scan Conversion Algorithm -- Linear Approach_files/eyes2.line.gif"> 
+
+<P>The above rule means that pixels on left and bottom edges will be drawn, but 
+pixels that lie on top and right edges will not be drawn. 
+<HR>
+<A href="http://www.cc.gatech.edu/gvu/multimedia/nsfmmedia/nsfmmedia.html"><IMG 
+src="Polygon Scan Conversion Algorithm -- Linear Approach_files/MM.gif">MultiMedia 
+Courseware Project</A> Brought to you by the letters M , M, C and W 
+<ADDRESS><A 
+href="http://www.cc.gatech.edu/grads/s/Viren.Shah/homepage.html">Viren 
+Shah</A><BR>viren@cc.gatech.edu<BR></ADDRESS><IMG height=1 src="" width=4> 
+</BODY></HTML>

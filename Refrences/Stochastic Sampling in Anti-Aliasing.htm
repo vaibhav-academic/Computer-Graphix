@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0074)http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias5.htm -->
+<HTML><HEAD><TITLE>Stochastic Sampling in Anti-Aliasing</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR><LINK 
+href="Stochastic Sampling in Anti-Aliasing_files/main.css" type=text/css 
+rel=stylesheet></HEAD>
+<BODY bgColor=#ffffff stylesrc="../hypergraph.htm">
+<H1 align=center>Stochastic Sampling in Anti-Aliasing</H1>
+<P><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/aliasref.htm#cook0">Reference</A></P>
+<P>Rob Cook proposed Stochastic Sampling which is a Monte Carlo type technique. 
+The image is sampled at nonuniformly spaced locations (in contrast to the above 
+techniques which sample at regularly spaced intervals). The effect of this is 
+that spurious low frequencies are replaced by random noise which is easier for 
+our visual system to ignore</P>
+<H4>Review of Uniform Point Sampling</H4>
+<P>Aliasing is not avoidable with uniform sampling intervals unless you can 
+guarantee that the function contains no frequencies greater than the Nyquist 
+limit. What about our eyes ? They have a finite number of photo receptors but we 
+do not see aliasing effects. In a Rhesus monkey the eye photo-receptors 
+distribution is non-uniform, it is a Poisson distribution. This is a random 
+distribution but in a monkey there is also the restriction of a certain minimum 
+distance between any two photo-receptors. The FT of this distribution gives a 
+strong value at f = 0 (DC or constant component, with noise elsewhere outside 
+Nyquist Limit. The effect of this distribution is that there is no aliasing but 
+the high frequency components are converted to noise. Thus we have evolved to 
+handle high frequency components as noise and thus to ignore them. To emulate 
+Poisson disk distribution, we do "jittering" or adding noise to the sample 
+location, this is a form of stochastic sampling.</P>
+<P>Jittering in time (for a time sampled signal) was previously analyzed by 
+Balakrishnan. i.e. rather than sample at nT, sample at nT + dn, where dn is the 
+jittering factor. If the dn are uncorrelated (dn and dm are not correlated) and 
+random, found results:</P>
+<P>- high frequencies attenuated and energy appears as noise (energy 
+conserved)<BR>- basic composition of spectrum unchanged.</P>
+<P>Analyzed two types of uncorrelated jittering - Gaussian and white 
+noise.<BR>In Gaussian jittering the values of d are chosen according to Gaussian 
+distribution. For white noise d is uniformly distributed between some - dT and 
+dT.</P>
+<P>Look at Figures illustrating this and its effects:</P>
+<P><IMG height=191 src="Stochastic Sampling in Anti-Aliasing_files/anti3.gif" 
+width=412></P>
+<P><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/aliasref.htm#cook5">Image 
+Reference</A></P>
+<P><IMG height=277 src="Stochastic Sampling in Anti-Aliasing_files/anti4.gif" 
+width=410></P>
+<P><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/aliasref.htm#cook6">Image 
+Reference</A> 
+<DL>
+  <DD>Effect of white noise jittering on wave &lt;- nyquist limit is to add 
+  noise to amplitudes effect on wave&gt; Nyquist Limit -&gt; convert from lower 
+  frequency aliasing to noise (actually only pure noise at frequency &lt;=&gt; 
+  0's else some aliasing). 
+  <P><IMG height=429 src="Stochastic Sampling in Anti-Aliasing_files/anti5.gif" 
+  width=404></P>
+  <P><A 
+  href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/aliasref.htm#cook7">Image 
+  Reference</A></P>
+  <DD>Implementation 
+  <DD>Subdivide pixel into &gt;= 1 subpixels 
+  <P>- Gives regular grid of subpixels with centers Xic, Yic (sample points i of 
+  super sampling)</P>
+  <P>- Independently perturb Xic, Yic positions (ie. add noise) </P>
+  <P>- Compute visibility / intensity at sample points (or fire rays)</P>
+  <P>- Filter resultant values with some reconstruction filter -&gt; the easiest 
+  is box filter (just average all values for single pixel) </P>
+  <P>- Better might be weighted average (eg. "tent") </P></DD></DL>
+<P><FONT face=Arial><IMG height=4 
+src="Stochastic Sampling in Anti-Aliasing_files/rain_lin.gif" width=800> <BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias0.htm"><IMG 
+height=40 src="Stochastic Sampling in Anti-Aliasing_files/back.gif" width=40> 
+Main Aliasing Page. </A><BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/hypergraph.htm"><IMG 
+height=40 src="Stochastic Sampling in Anti-Aliasing_files/up.gif" width=40> 
+HyperGraph Home page. </A></FONT></P>
+<ADDRESS><FONT face=Arial>Last changed <!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->October 
+04, 1999<!--webbot bot="Timestamp" endspan i-checksum="31957" -->, G. Scott 
+Owen, owen@siggraph.org</FONT> </ADDRESS></BODY></HTML>
