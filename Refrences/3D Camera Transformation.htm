@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0081)http://www.siggraph.org/education/materials/HyperGraph/viewing/view3d/3dview1.htm -->
+<HTML><HEAD><TITLE>3D Camera Transformation</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR><LINK 
+href="3D Camera Transformation_files/main.css" type=text/css 
+rel=stylesheet></HEAD>
+<BODY bgColor=#ffffff stylesrc="../../hypergraph.htm">
+<H1 align=center>3D Camera Transformation</H1>
+<P>In graphics we usually use a camera analogy, i.e., the viewer, located at the 
+View Reference Point (VRP), observes the scene through a camera and can move 
+around the scene. This is accomplished by defining a viewing coordinate system 
+(VCS) (left handed) which has the position and orientation of the camera. Then 
+we align the VCS with the world coordinate system (WCS), creating a viewing 
+transformation matrix. This matrix is then applied to all the objects in the 
+scene which moves them into the proper position as seen from the VRP. We will 
+assume the world coordinate system is right handed.</P>
+<P>First step : Choosing the VCS origin (in world coordinates). This is the VRP, 
+that is, the position of the camera (observer). Next, we define a projection 
+plane (view plane or image plane). Choose a view plane normal vector, N which 
+determines the positive Z axis direction. Next choose a view up vector, V which 
+determines the positive y axis direction. We are through since the positive U 
+(X) axis is orthogonal to the V (Y) and N (Z) axis. </P>
+<P>Now that we have defined a VCS (left handed) we must perform a coordinate 
+transformation to align the WCS with the VCS.</P>
+<P><IMG height=336 src="3D Camera Transformation_files/3dview1a.gif" width=628> 
+</P>
+<P><IMG height=336 src="3D Camera Transformation_files/3dview1b.gif" width=628> 
+</P>
+<P><IMG height=336 src="3D Camera Transformation_files/3dview1c.gif" 
+width=628></P>
+<P>A problem with the previous method is that it is not easy for the user to 
+choose <B>N</B> and an orthogonal vector, <B>V</B>. So we will look at an 
+alternative method of determining the Viewing Coordinate System. We ask the 
+viewer to choose the VRP (viewers position), a Focus Point (FP), i.e. center of 
+focus or center of attention, and an up point (UP). Then we compute the Eye 
+Vector (EV) which is the vector from the VRP to the Focus Point. We normalize EV 
+and this becomes <B>N</B>, the normal to the view plane , which is the Z axis of 
+the VCS. The length of EV can be used as the view plane distance, i.e., the 
+distance between the VRP and the View Plane.</P>
+<P>Now compute the vector from the VRP to the Up Point. This vector (UV) is not 
+necessarily orthogonal to <B>N</B> so we must construct the up vector which is 
+orthogonal to <B>N</B>. This is given by the following: 
+<DL>
+  <DD>
+  <TABLE border=0>
+    <TBODY>
+    <TR>
+      <TD>
+        <DL>
+          <DD><STRONG>V1</STRONG> = <STRONG>UV</STRONG> - (<STRONG>N</STRONG> * 
+          <STRONG>UV</STRONG>)<STRONG>N</STRONG> </DD></DL>
+        <P>Now, normalize <STRONG>V1</STRONG> and get <B>V</B>.</P></TD>
+      <TD><IMG height=168 src="3D Camera Transformation_files/3dview1d.gif" 
+        width=314></TD></TR></TBODY></TABLE></DD></DL>
+<P>The third axis <B>U = N × V</B> (since the VCS is left handed). The viewing 
+transformation M transforms objects described in the WCS into the VCS. It is 
+given as: </P><PRE>     | R  |  0 |
+M  = | ---|-----|
+     | T   |  1 |
+</PRE>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD>Where R = the rotational component, i.e., it rotates the VCS into 
+      alignment with the WCS, and T is the translation component, i.e. it 
+      translates the VRP into the origin. So we now have two R3 spaces with 
+      orthonormal bases X , Y, Z and U, V, N. So we want to find the rotational 
+      matrix R, which transforms from one vector space to the other. That is, to 
+      transform a point P from UVN space to XYZ space we multiply by R.<PRE>       R × Puvn =&gt; Pxyz
+
+Then :	u × R = i
+	v × R = j  =&gt;   L × R  = I
+	n × R = k
+</PRE></TD>
+    <TD><IMG height=290 src="3D Camera Transformation_files/3dview1e.gif" 
+      width=300></TD></TR></TBODY></TABLE>
+<P>The rotation transformation aligns n with the -z axis, but then we invert the 
+z axis since are converting from a left handed to a right handed system so the 
+composition of these two transformations maps n into the + z axis ; </P><PRE>	  |  u1  u2   u3  |
+where L = |  v1   v2   v3  |
+	  |  n1  n2   n3  |
+</PRE>
+<P>Now L × L-1 = I =&gt; R = L-1 </P>
+<P>Since u, v, n are orthonormal and L is an orthogonal matrix L-1 = LT 
+(transpose).<BR></P><PRE>		   |  u1  v1   n1  |
+Therefore R = LT = |  u2  v2   n2  |
+		   |  u3  v3   n3  |
+</PRE>
+<P>Now M transforms the VRP into the origin of the WCS, so: 
+<DL>
+  <DD>(VRP, 1) × M = (0, 0, 0, 1) = VRP × R + T 
+  <DD>T = -VRP × R = - (VRP × u, -VRP × v, -VRP × n) </DD></DL>
+<P>So the complete viewing transformation matrix is as follows: </P><PRE>   | u1	v1	n1	0 |
+M =| u2	v2	n2	0 |
+   | u3	v3	n3	0 |
+   |-VRP·u	-VRP·v	 -VRP·n	1 |
+</PRE>
+<P>We can now apply this matrix, M, to all the objects in the scene and it will 
+orient them in the way we want, i.e., as viewed from the VRP.</P>
+<P><IMG height=4 src="3D Camera Transformation_files/rain_lin.gif" width=800> 
+<BR><IMG height=40 src="3D Camera Transformation_files/back.gif" width=40><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/viewing/view3d/3dview0.htm"> 
+<FONT face=Arial>3D Viewing Transformation</FONT></A><BR><FONT face=Arial><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/toc.htm"><IMG 
+height=40 src="3D Camera Transformation_files/up.gif" width=40> HyperGraph Table 
+of Contents. </A><BR></FONT></P>
+<ADDRESS><FONT face=Arial>Last changed <!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->September 
+30, 1998<!--webbot bot="Timestamp" endspan i-checksum="39060" -->, G. Scott 
+Owen, owen@siggraph.org</FONT> </ADDRESS></BODY></HTML>

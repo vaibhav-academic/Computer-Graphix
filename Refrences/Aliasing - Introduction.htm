@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0074)http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias1.htm -->
+<HTML><HEAD><TITLE>Aliasing - Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR><!-- WEBMAGIC VERSION NUMBER="2.0.1" --><!-- WEBMAGIC TRANSLATION NAME="ServerRoot" SRC="/var/www/htdocs/" DST="/" --><!-- WEBMAGIC TRANSLATION NAME="ProjectRoot" SRC="./" DST="" --><LINK 
+href="Aliasing - Introduction_files/main.css" type=text/css 
+rel=stylesheet></HEAD>
+<BODY bgColor=#ffffff stylesrc="../hypergraph.htm">
+<H1 align=center>Introduction to Aliasing</H1>
+<P>Aliasing is a potential problem whenever an analog signal is point sampled to 
+convert it into a digital signal. It can occur in audio sampling, for example, 
+in converting music to digital form to be stored on a CD-ROM or other digital 
+device. Aliasing happens whenever an analog signal is not sampled at a high 
+enough frequency. In audio, Aliasing manifests itself in the form of spurious 
+low frequencies. An example is shown below of two sin waves.</P>
+<P><IMG height=310 src="Aliasing - Introduction_files/anti0.gif" width=411 
+sgi_fullpath="/local/local/www-data/classes/hypgraph/aliasing/anti0.gif" 
+sgi_setheight sgi_setwidth></P>
+<P><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/aliasref.htm#cook1">Image 
+Reference</A></P>
+<P>In the top sin wave, the sampling is fast enough that a reconstructed signal 
+(the small circles) would have the same frequency as the original sin wave. In 
+the bottom wave, with a higher frequency but the same point sampling rate, a 
+reconstructed signal (the small circles) would appear to be a sin wave of a 
+lower frequency, i.e., an <I>aliased</I> signal.</P>
+<P>From <A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias3.htm">Point 
+Sampling Theory</A> it turns out that to accurately reconstruct a signal, the 
+signal must be sampled at a rate greater than or equal to two times the highest 
+frequency contained in the signal. This is called the Nyquist Theorem and the 
+highest frequency that can be accurately represented with a given sampling rate 
+is called the Nyquist limit. For example, to produce a music CD-ROM the analog 
+signal is sampled at a maximum rate of 44 Khz, therefore the highest possible 
+audio frequency is 22khz. Any audio frequencies greater than 22Khz must be 
+removed from the input signal or they will be aliased, i.e., appear as low 
+frequency sounds. </P>
+<P>Aliasing occurs in <A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias2a.htm">computer 
+graphics</A>, since we are point sampling an analog signal. The mathematical 
+model of an image is a continuous analog signal which is sampled at discrete 
+points (the pixel positions). When the sampling rate is less than Nyquist Limit 
+then there are aliasing artifacts that are called "jaggies" in computer 
+graphics. In general, aliasing is when high frequencies appear as low 
+frequencies which produce regular patterns easy to see. </P>
+<P><FONT face=Arial><IMG height=4 
+src="Aliasing - Introduction_files/rain_lin.gif" width=800> <BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias0.htm"><IMG 
+height=40 src="Aliasing - Introduction_files/back.gif" width=40> Main Aliasing 
+Page. </A><BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/hypergraph.htm"><IMG 
+height=40 src="Aliasing - Introduction_files/up.gif" width=40> HyperGraph Home 
+page. </A></FONT></P>
+<ADDRESS><FONT face=Arial>Last changed <!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->October 
+04, 1999<!--webbot bot="Timestamp" endspan i-checksum="31957" -->, G. Scott 
+Owen, owen@siggraph.org</FONT> </ADDRESS></BODY></HTML>

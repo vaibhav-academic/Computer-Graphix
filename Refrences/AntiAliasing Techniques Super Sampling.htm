@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0074)http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias4.htm -->
+<HTML><HEAD><TITLE>AntiAliasing Techniques: Super Sampling</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR><!-- WEBMAGIC VERSION NUMBER="2.0.1" --><!-- WEBMAGIC TRANSLATION NAME="ServerRoot" SRC="/local/local/www-data/" DST="/" --><!-- WEBMAGIC TRANSLATION NAME="ProjectRoot" SRC="/local/local/www-data/classes/hypgraph" DST="../" --><LINK 
+href="AntiAliasing Techniques Super Sampling_files/main.css" type=text/css 
+rel=stylesheet></HEAD>
+<BODY bgColor=#ffffff stylesrc="../hypergraph.htm">
+<H1 align=center>Super-Sampling </H1>
+<P>In supersampling we sample more than 1 sample per pixel. These samples can be 
+at regularly spaced intervals. For example, we might compute an image at 2K by 
+2K or 4K by 4K points and and display at 1K by 1K pixel resolution. Sampling at 
+2K x 2K for a 1K x 1K image increases the number of samples and graphics 
+computations (and Z-buffer requirements for scan-line graphics) by a factor of 
+4. An alternative method would be to sample at the corners and center of each 
+pixel. This only increases the number of computations by a factor of two but 
+requires increased overhead for bookkeeping (since the samples from the previous 
+row must be stored). Supersampling has the effect of moving the Nyquist Limit to 
+higher frequencies.</P>
+<P>Rather than combining pixels with unweighted average (box filter) might use a 
+weighted filter. We might even average pixel samples over several pixels , i.e. 
+combine over a wider range with weighted average. This is an example of digital 
+filtering. Even if we move the Nyquist Limit to higher frequencies, we will 
+still have aliasing. Adaptive supersampling: additional sampling in region of 
+high frequency, eg. near edges. We continue supersampling as long as |Ic - Ii| 
+&gt; threshold variance. It does better but requires large number of 
+rays/samples and it is a more complicated algorithm.</P>
+<P><FONT face=Arial><IMG height=4 
+src="AntiAliasing Techniques Super Sampling_files/rain_lin.gif" width=800> 
+<BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias0.htm"><IMG 
+height=40 src="AntiAliasing Techniques Super Sampling_files/back.gif" width=40> 
+Main Aliasing Page. </A><BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/hypergraph.htm"><IMG 
+height=40 src="AntiAliasing Techniques Super Sampling_files/up.gif" width=40> 
+HyperGraph Home page. </A></FONT></P>
+<ADDRESS><FONT face=Arial>Last changed <!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->October 
+04, 1999<!--webbot bot="Timestamp" endspan i-checksum="31957" -->, G. Scott 
+Owen, owen@siggraph.org</FONT> </ADDRESS></BODY></HTML>

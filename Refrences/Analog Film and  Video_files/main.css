@@ -1,0 +1,57 @@
+A:link {
+	COLOR: rgb(0,0,153)
+}
+A:hover {
+	BACKGROUND: rgb(204,204,204)
+}
+A:hover {
+	BACKGROUND: rgb(204,204,204)
+}
+A:visited {
+	COLOR: rgb(153,0,153)
+}
+A:active {
+	COLOR: rgb(0,102,102)
+}
+BODY {
+	COLOR: rgb(0,0,0); FONT-FAMILY: Arial, Helvetica, sans-serif; BACKGROUND-COLOR: rgb(250,250,250)
+}
+TABLE {
+	table-border-color-light: rgb(102,204,204); table-border-color-dark: rgb(0,102,102)
+}
+H1 {
+	FONT-FAMILY: Times New Roman, Times, serif
+}
+H2 {
+	FONT-FAMILY: Times New Roman, Times, serif
+}
+H3 {
+	FONT-FAMILY: Times New Roman, Times, serif
+}
+H4 {
+	FONT-FAMILY: Times New Roman, Times, serif
+}
+H5 {
+	FONT-FAMILY: Times New Roman, Times, serif
+}
+H6 {
+	FONT-FAMILY: Times New Roman, Times, serif
+}
+H1 {
+	COLOR: rgb(0,0,0)
+}
+H2 {
+	COLOR: rgb(0,0,0)
+}
+H3 {
+	COLOR: rgb(0,0,0)
+}
+H4 {
+	COLOR: rgb(0,0,0)
+}
+H5 {
+	COLOR: rgb(0,0,0)
+}
+H6 {
+	COLOR: rgb(0,0,0)
+}

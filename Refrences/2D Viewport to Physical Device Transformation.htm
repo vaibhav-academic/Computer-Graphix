@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0080)http://www.siggraph.org/education/materials/HyperGraph/viewing/view2d/pviewp.htm -->
+<HTML><HEAD><TITLE>2D Viewport to Physical Device Transformation</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR><LINK 
+href="2D Viewport to Physical Device Transformation_files/main.css" 
+type=text/css rel=stylesheet></HEAD>
+<BODY bgColor=#ffffff stylesrc="../../hypergraph.htm">
+<H1 align=center>2D Viewport to Physical Device Transformation </H1>
+<P>Now we need to transform to Physical Device Coordinates (PDC), which we can 
+do by just multiplying the Normalized Device Coordinates (NDC) by the resolution 
+in pixels. </P>
+<P>Xp = Xv * Xnum <BR>Yp = Yv * Ynum <BR></P>
+<P>Note: Remember the aspect ratio problem, e.g., for CGA mode 6 (640 x 200) 
+=&gt;2.4 horizontal pixels = 1 vertical pixel. </P>
+<P>Therefore: 200 vertical pixels = 480 horizontal. pixels</P>
+<P>so use Ynum = 199 {0 =&gt; 199} <BR>Xnum = 479 {0 =&gt;479} </P>
+<P>Also have problem with 0, 0 being upper left rather than lower left so actual 
+equation used is: </P>
+<P>Xp = Xv * Xnum <BR>Yp = Ynum - Yv * Ynum</P>
+<P>As a check if </P>
+<P>Xv = 0.0 =&gt; Xp = 0 ( left ) <BR>Xv = 1.0 =&gt; Xp = 479 ( right ) </P>
+<P>Yv = 0.0 =&gt; Yp = 199 - 0 = 199 (Bottom) <BR>Yv = 1.0 =&gt; Yp = 199 - 199 
+= 0 (Top) <BR></P>
+<P><IMG height=4 
+src="2D Viewport to Physical Device Transformation_files/rain_lin.gif" 
+width=540><BR><IMG height=40 
+src="2D Viewport to Physical Device Transformation_files/back.gif" width=40><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/viewing/view2d/2dview0.htm"> 
+<FONT face=Arial>2D Viewing Transformation Main page</FONT></A><BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/toc.htm"><FONT 
+face=Arial><IMG height=40 
+src="2D Viewport to Physical Device Transformation_files/back.gif" width=40> 
+HyperGraph Table of Contents. </FONT></A><BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/hypergraph.htm"><FONT 
+face=Arial><IMG height=40 
+src="2D Viewport to Physical Device Transformation_files/up.gif" width=40> 
+HyperGraph Home page. </FONT></A></P>
+<ADDRESS><FONT face=Arial>Last changed <!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->September 
+30, 1998<!--webbot bot="Timestamp" endspan i-checksum="39060" -->, G. Scott 
+Owen, owen@siggraph.org</FONT> </ADDRESS></BODY></HTML>

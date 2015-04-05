@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0074)http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias3.htm -->
+<HTML><HEAD><TITLE>Aliasing - Point Sampling Theory</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR><LINK 
+href="Aliasing - Point Sampling Theory_files/main.css" type=text/css 
+rel=stylesheet></HEAD>
+<BODY bgColor=#ffffff stylesrc="../hypergraph.htm">
+<H1 align=center>Aliasing - Point Sampling Theory</H1>
+<P>The key points are as follows: 
+<UL>
+  <LI>Point sampling in the spatial domain corresponds to the point by point 
+  multiplication of a sampling impulse function times the analog signal to be 
+  sampled. 
+  <LI>The Fourier Transform of an impulse function with spacing T in the spatial 
+  domain results in an impulse function with spacing 1/T in the frequency domain 
+
+  <LI>The multiplication of two functions in one domain corresponds to the 
+  convolution of the Fourier Transforms of the two functions in the other domain 
+
+  <LI>The convolution of an impulse function with another function is the second 
+  function instantiated at the impulse function positions. </LI></UL>
+<P>Look at examples of point sampling without and with aliasing:</P>
+<P><B>In the time domain:</B> The top signal is sampled at the Nyquist limit and 
+so is not aliased but the bottom signal is sampled at a rate below the Nyquist 
+limit and is aliased.</P>
+<P><IMG height=310 src="Aliasing - Point Sampling Theory_files/anti0.gif" 
+width=411></P>
+<P><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/aliasref.htm#cook1">Image 
+Reference</A></P>
+<P><B>In the frequency domain:</B> The left side corresponds to the top in the 
+above image and the right side corresponds to the lower signal. Note that, for 
+the left side case, after the reconstruction filter is applied, we obtain a 
+signal identical to the initial signal, i.e., no aliasing has occurred. In the 
+right side case, there is an overlap between the input signal instantiations and 
+after the reconstruction filter is applied we do not have the original signal, 
+but instead we now have two frequencies, both of which are lower than the 
+original. This is aliasing.</P>
+<P><IMG height=357 src="Aliasing - Point Sampling Theory_files/anti1.gif" 
+width=378></P>
+<P><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/aliasref.htm#cook2">Image 
+Reference</A></P>
+<P>Note that the ideal reconstruction filter is a box in the frequency domain. 
+This corresponds to a sinc filter (sin (x) / x) in the spatial domain. The sinc 
+function is infinite, which means that it is impossible to have a perfect 
+reconstruction filter in the spatial domain.</P>
+<P><STRONG>Poisson Distribution</STRONG></P>
+<P>Notice that if we use a Poisson distribution, then signals that are beyond 
+the Nyquist limit become noise.</P>
+<P><IMG height=389 src="Aliasing - Point Sampling Theory_files/anti2.gif" 
+width=381></P>
+<P><FONT face=Arial><IMG height=4 
+src="Aliasing - Point Sampling Theory_files/rain_lin.gif" width=800> <BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/aliasing/alias0.htm"><IMG 
+height=40 src="Aliasing - Point Sampling Theory_files/back.gif" width=40> Main 
+Aliasing Page. </A><BR><A 
+href="http://www.siggraph.org/education/materials/HyperGraph/hypergraph.htm"><IMG 
+height=40 src="Aliasing - Point Sampling Theory_files/up.gif" width=40> 
+HyperGraph Home page. </A></FONT></P>
+<ADDRESS><FONT face=Arial>Last changed <!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->October 
+04, 1999<!--webbot bot="Timestamp" endspan i-checksum="31957" -->, G. Scott 
+Owen, owen@siggraph.org</FONT> </ADDRESS></BODY></HTML>
